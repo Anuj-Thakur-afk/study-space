@@ -2,14 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+:root {
+  --bg-primary: #F5F2EA;
+  --navy-primary: #263653;
+  --terracotta: #E69A68;
+  --sage: #DCE5DC;
+  --text-primary: #263238;
+  --text-muted: #777777;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  background: #FAFBF8;
-  color: #1F2933;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F5F2EA;
+  color: #263238;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-button, input, select { font: inherit; }
-::selection { background: #D7EBDD; color: #173D2E; }
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+::selection {
+  background: #DCE5DC;
+  color: #263653;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F2EA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4D2C4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9BB09B;
+}
