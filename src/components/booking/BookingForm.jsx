@@ -22,10 +22,9 @@ export default function BookingForm({
   const router = useRouter();
   const isRoomBooking = space.studyType === "Group Study" || space.studyType === "Discussion Room";
 
-  // Default to today
   const todayStr = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(todayStr);
-  const [selectedSlotIndex, setSelectedSlotIndex] = useState(1); // 10:00 - 12:00
+  const [selectedSlotIndex, setSelectedSlotIndex] = useState(1);
   const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("12:00");
   const [purpose, setPurpose] = useState("Academic course revision");
@@ -61,7 +60,7 @@ export default function BookingForm({
     }
 
     if (!isRoomBooking && !selectedSeatId) {
-      setError("Please select an available seat from the visual arrangement above.");
+      setError("Please select an available seat from the layout above.");
       return;
     }
 
@@ -100,48 +99,45 @@ export default function BookingForm({
 
   if (successBooking) {
     return (
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 text-center">
-        <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-100 text-2xl">
+      <div className="border border-[#477A55] bg-[#E8F2EC] p-6 text-center">
+        <div className="mx-auto grid h-12 w-12 place-items-center border border-[#477A55] bg-white text-xl font-black text-[#477A55] mb-4">
           ✓
         </div>
-        <h3 className="mt-3 text-lg font-bold text-emerald-900">Reservation Confirmed!</h3>
-        <p className="mt-1 text-xs text-emerald-700">
-          Your study reservation has been recorded in the campus occupancy database.
+        <h3 className="text-base font-black uppercase tracking-tight text-[#171717]">
+          Reservation Confirmed
+        </h3>
+        <p className="mt-1 text-xs text-[#777777]">
+          Your study space has been reserved in the campus database.
         </p>
 
-        <div className="mt-5 rounded-xl bg-white p-4 text-left text-xs space-y-2 border border-emerald-100">
-          <div className="flex justify-between">
-            <span className="text-[#777777]">Reservation ID:</span>
-            <span className="font-mono font-bold text-[#263653]">{successBooking.id}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#777777]">Space:</span>
-            <span className="font-semibold text-[#263653]">{space.name}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#777777]">Booking Type:</span>
-            <span className="font-semibold text-[#263653]">{successBooking.bookingType}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-[#777777]">Date & Time:</span>
-            <span className="font-semibold text-[#263653]">
-              {successBooking.bookingDate} ({successBooking.startTime} – {successBooking.endTime})
-            </span>
-          </div>
+        <div className="mt-5 border border-[#BDBDBD] bg-white p-4 text-left text-xs space-y-2">
+          {[
+            { label: "Booking ID", value: successBooking.id, mono: true },
+            { label: "Space", value: space.name },
+            { label: "Type", value: successBooking.bookingType },
+            { label: "Date & Time", value: `${successBooking.bookingDate} (${successBooking.startTime} – ${successBooking.endTime})` },
+          ].map((row) => (
+            <div key={row.label} className="flex justify-between gap-2">
+              <span className="text-[#777777]">{row.label}:</span>
+              <span className={`font-bold text-[#171717] ${row.mono ? "font-mono text-[10px]" : ""}`}>
+                {row.value}
+              </span>
+            </div>
+          ))}
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-3 justify-center">
+        <div className="mt-5 flex flex-wrap gap-2 justify-center">
           <button
             onClick={() => router.push(`/bookings/${successBooking.id}`)}
-            className="rounded-full bg-[#263653] px-5 py-2.5 text-xs font-bold text-white transition hover:bg-[#E69A68]"
+            className="border border-[#171717] bg-[#171717] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#F15A24] hover:border-[#F15A24] transition"
           >
             View Digital Pass
           </button>
           <button
             onClick={() => router.push("/bookings")}
-            className="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs font-semibold text-[#263238] transition hover:bg-slate-50"
+            className="border border-[#BDBDBD] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#777777] hover:border-[#171717] hover:text-[#171717] transition"
           >
-            Go to My Bookings
+            My Bookings
           </button>
         </div>
       </div>
@@ -149,113 +145,119 @@ export default function BookingForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-[#263653]/10 bg-white p-6 shadow-sm">
-      <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+    <form onSubmit={handleSubmit} className="border border-[#BDBDBD] bg-white">
+      {/* Form header */}
+      <div className="flex items-center justify-between border-b border-[#BDBDBD] px-5 py-4 bg-[#171717]">
         <div>
-          <h3 className="text-base font-bold text-[#263653]">
+          <h3 className="text-xs font-black uppercase tracking-widest text-white">
             {isRoomBooking ? "Reserve Group Room" : "Reserve Individual Seat"}
           </h3>
-          <p className="text-xs text-[#777777]">
+          <p className="text-[10px] text-white/50 mt-0.5">
             {isRoomBooking
-              ? "Reserve this entire collaborative space for your group session."
-              : "Confirm selected date, time slot, and study purpose."}
+              ? "Reserve the entire space for your group."
+              : "Confirm date, time, and study purpose."}
           </p>
         </div>
-        <span className="rounded-lg bg-[#DCE5DC] px-2.5 py-1 text-[11px] font-bold text-[#263653]">
-          {isRoomBooking ? "Room Level" : "Desk Level"}
+        <span className="border border-[#333] px-2 py-1 text-[9px] font-black uppercase tracking-widest text-[#777777]">
+          {isRoomBooking ? "Room" : "Desk"}
         </span>
       </div>
 
-      {error && (
-        <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700">
-          ⚠️ {error}
+      <div className="p-5 space-y-5">
+        {error && (
+          <div className="border border-[#C43C32] bg-[#FAEAE9] p-3 text-xs text-[#C43C32]">
+            {error}
+          </div>
+        )}
+
+        {/* Date */}
+        <div>
+          <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
+            1 — Reservation Date
+          </label>
+          <input
+            type="date"
+            min={todayStr}
+            value={date}
+            onChange={handleDateChange}
+            className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs font-medium text-[#171717] outline-none focus:border-[#171717] transition"
+            required
+          />
         </div>
-      )}
 
-      {/* Date Selection */}
-      <div className="mt-5">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1.5">
-          1. Select Reservation Date
-        </label>
-        <input
-          type="date"
-          min={todayStr}
-          value={date}
-          onChange={handleDateChange}
-          className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2.5 text-xs font-medium text-[#263238] outline-none focus:border-[#263653]"
-          required
-        />
-      </div>
+        {/* Time slots */}
+        <div>
+          <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+            2 — Time Slot
+          </label>
+          <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+            {TIME_SLOTS.map((slot, idx) => (
+              <button
+                key={slot.label}
+                type="button"
+                onClick={() => handleSlotSelect(idx)}
+                className={`border py-2 px-2.5 text-left text-xs font-semibold transition ${
+                  selectedSlotIndex === idx
+                    ? "border-[#F15A24] bg-[#F15A24] text-white"
+                    : "border-[#BDBDBD] bg-white text-[#777777] hover:border-[#171717] hover:text-[#171717]"
+                }`}
+              >
+                <div className="text-[9px] opacity-70 uppercase tracking-wider">
+                  Slot {idx + 1}
+                </div>
+                <div className="truncate font-bold">{slot.start} – {slot.end}</div>
+              </button>
+            ))}
+          </div>
+        </div>
 
-      {/* Time Slot Selector */}
-      <div className="mt-5">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-2">
-          2. Choose Time Slot
-        </label>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {TIME_SLOTS.map((slot, idx) => (
-            <button
-              key={slot.label}
-              type="button"
-              onClick={() => handleSlotSelect(idx)}
-              className={`rounded-xl border py-2 px-2.5 text-left text-xs transition ${
-                selectedSlotIndex === idx
-                  ? "border-[#263653] bg-[#263653] text-white font-bold shadow-sm"
-                  : "border-slate-200 bg-[#F5F2EA]/40 text-[#263238] hover:border-[#263653]/40"
-              }`}
-            >
-              <div className="text-[10px] opacity-80">Slot {idx + 1}</div>
-              <div className="truncate">{slot.start} – {slot.end}</div>
-            </button>
+        {/* Purpose */}
+        <div>
+          <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
+            3 — Study Objective
+          </label>
+          <input
+            type="text"
+            value={purpose}
+            onChange={(e) => setPurpose(e.target.value)}
+            placeholder="e.g. Operating Systems final revision..."
+            className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717] transition placeholder:text-[#BDBDBD]"
+          />
+        </div>
+
+        {/* Summary */}
+        <div className="border border-[#BDBDBD] bg-[#F4F3ED] p-4 text-xs space-y-1.5">
+          {[
+            { label: "Facility", value: space.name },
+            {
+              label: "Allocation",
+              value: isRoomBooking
+                ? "Full Collaborative Room"
+                : selectedSeatId
+                ? "Seat Selected"
+                : "⚠ No seat selected",
+            },
+            { label: "Window", value: `${date} · ${startTime} – ${endTime}` },
+          ].map((row) => (
+            <div key={row.label} className="flex justify-between gap-2">
+              <span className="text-[#777777] uppercase tracking-wider text-[9px] font-bold">
+                {row.label}
+              </span>
+              <span className="font-bold text-[#171717] text-right">{row.value}</span>
+            </div>
           ))}
         </div>
-      </div>
 
-      {/* Purpose */}
-      <div className="mt-5">
-        <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1.5">
-          3. Study Objective / Subject
-        </label>
-        <input
-          type="text"
-          value={purpose}
-          onChange={(e) => setPurpose(e.target.value)}
-          placeholder="e.g. Operating Systems final revision, Capstone peer review..."
-          className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2.5 text-xs text-[#263238] outline-none focus:border-[#263653]"
-        />
-      </div>
-
-      {/* Summary preview */}
-      <div className="mt-6 rounded-xl bg-[#F5F2EA] p-4 text-xs text-[#263238] space-y-1.5">
-        <div className="flex justify-between">
-          <span className="text-[#777777]">Target Facility:</span>
-          <span className="font-semibold text-[#263653]">{space.name}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-[#777777]">Allocation Type:</span>
-          <span className="font-semibold text-[#263653]">
-            {isRoomBooking ? "Full Collaborative Room" : selectedSeatId ? "Specific Seat Selected" : "Seat selection pending"}
-          </span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-[#777777]">Selected Window:</span>
-          <span className="font-semibold text-[#263653]">
-            {date} ({startTime} – {endTime})
-          </span>
-        </div>
-      </div>
-
-      {/* Submit Button */}
-      <div className="mt-6">
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#E69A68] py-3 text-xs font-bold text-white shadow-sm transition hover:bg-[#D4834F] disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 border border-[#F15A24] bg-[#F15A24] py-3.5 text-xs font-black uppercase tracking-widest text-white transition hover:bg-[#171717] hover:border-[#171717] disabled:opacity-60"
         >
           {loading ? (
             <LoadingSpinner size="sm" text="" />
           ) : !user ? (
-            "Sign In to Confirm Reservation"
+            "Sign In to Confirm Booking"
           ) : (
             `Confirm ${isRoomBooking ? "Room" : "Seat"} Booking`
           )}

@@ -5,6 +5,8 @@ import Seat from "@/models/Seat";
 import User from "@/models/User";
 import OccupancyManagement from "@/components/admin/OccupancyManagement";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Occupancy Verification | StudySpace Admin",
 };
@@ -30,12 +32,12 @@ export default async function AdminOccupancyPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-wider text-[#E69A68]">
+      <div className="border-b border-[#BDBDBD] pb-6">
+        <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
           Physical Attendance
         </span>
-        <h1 className="mt-1 text-2xl font-extrabold text-[#263653]">
-          Campus Occupancy Verification
+        <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
+          Occupancy Verification
         </h1>
         <p className="mt-1 text-xs text-[#777777]">
           Verify student check-in, toggle real-time physical occupancy, and release desks after sessions finish.

@@ -39,32 +39,184 @@ export default function Navbar() {
     }
   }
 
-  const isActive = (path) => pathname === path || (path !== "/" && pathname.startsWith(path));
+  const isActive = (path) =>
+    pathname === path || (path !== "/" && pathname.startsWith(path));
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#263653]/10 bg-[#FFFFFF]/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-8">
+    <header className="sticky top-0 z-40 border-b border-[#BDBDBD] bg-[#171717]">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 sm:px-8">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#263653] text-[#F5F2EA] shadow-sm transition group-hover:bg-[#E69A68]">
-            <span className="text-lg font-extrabold tracking-tight">S</span>
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="grid h-9 w-9 place-items-center border border-[#F15A24] bg-[#F15A24] text-white font-black text-sm transition group-hover:bg-transparent group-hover:text-[#F15A24]">
+            <span>SS</span>
           </div>
           <div>
-            <span className="block text-lg font-bold tracking-tight text-[#263653]">StudySpace</span>
-            <span className="block -mt-1 text-[10px] font-medium uppercase tracking-wider text-[#777777]">
-              Campus Discovery
+            <span className="block text-sm font-bold tracking-widest text-white uppercase">
+              StudySpace
+            </span>
+            <span className="block -mt-0.5 text-[9px] font-medium uppercase tracking-widest text-[#777777]">
+              Campus Booking
             </span>
           </div>
         </Link>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-1 text-sm font-medium text-[#263238]">
+        <nav className="hidden md:flex items-center gap-0.5 text-xs font-semibold uppercase tracking-wider">
           <Link
             href="/spaces"
-            className={`rounded-lg px-3.5 py-2 transition ${
+            className={`px-4 py-2.5 transition-all border-b-2 ${
               isActive("/spaces")
-                ? "bg-[#DCE5DC] text-[#263653] font-semibold"
-                : "hover:bg-[#F5F2EA] text-[#263238]"
+                ? "border-[#F15A24] text-[#F15A24]"
+                : "border-transparent text-[#BDBDBD] hover:text-white hover:border-[#777777]"
+            }`}
+          >
+            Explore
+          </Link>
+
+          {user && user.role === "STUDENT" && (
+            <>
+              <Link
+                href="/dashboard"
+                className={`px-4 py-2.5 transition-all border-b-2 ${
+                  isActive("/dashboard")
+                    ? "border-[#F15A24] text-[#F15A24]"
+                    : "border-transparent text-[#BDBDBD] hover:text-white hover:border-[#777777]"
+                }`}
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/bookings"
+                className={`px-4 py-2.5 transition-all border-b-2 ${
+                  isActive("/bookings")
+                    ? "border-[#F15A24] text-[#F15A24]"
+                    : "border-transparent text-[#BDBDBD] hover:text-white hover:border-[#777777]"
+                }`}
+              >
+                My Bookings
+              </Link>
+            </>
+          )}
+
+          {user && user.role === "ADMIN" && (
+            <>
+              <Link
+                href="/admin"
+                className={`px-4 py-2.5 transition-all border-b-2 ${
+                  pathname === "/admin"
+                    ? "border-[#F15A24] text-[#F15A24]"
+                    : "border-transparent text-[#BDBDBD] hover:text-white hover:border-[#777777]"
+                }`}
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/admin/spaces"
+                className={`px-4 py-2.5 transition-all border-b-2 ${
+                  isActive("/admin/spaces")
+                    ? "border-[#F15A24] text-[#F15A24]"
+                    : "border-transparent text-[#BDBDBD] hover:text-white hover:border-[#777777]"
+                }`}
+              >
+                Spaces
+              </Link>
+              <Link
+                href="/admin/seats"
+                className={`px-4 py-2.5 transition-all border-b-2 ${
+                  isActive("/admin/seats")
+                    ? "border-[#F15A24] text-[#F15A24]"
+                    : "border-transparent text-[#BDBDBD] hover:text-white hover:border-[#777777]"
+                }`}
+              >
+                Seats
+              </Link>
+              <Link
+                href="/admin/bookings"
+                className={`px-4 py-2.5 transition-all border-b-2 ${
+                  isActive("/admin/bookings")
+                    ? "border-[#F15A24] text-[#F15A24]"
+                    : "border-transparent text-[#BDBDBD] hover:text-white hover:border-[#777777]"
+                }`}
+              >
+                Bookings
+              </Link>
+            </>
+          )}
+        </nav>
+
+        {/* Auth / Account Actions */}
+        <div className="hidden md:flex items-center gap-3">
+          {loading ? (
+            <div className="h-8 w-24 animate-pulse bg-[#2a2a2a]" />
+          ) : user ? (
+            <div className="flex items-center gap-3">
+              <Link
+                href="/profile"
+                className="flex items-center gap-2 border border-[#2a2a2a] hover:border-[#F15A24] px-3 py-1.5 transition group"
+              >
+                <div className="grid h-6 w-6 place-items-center bg-[#F15A24] text-white font-bold text-xs">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-xs font-semibold text-[#BDBDBD] group-hover:text-white transition">
+                  {user.name.split(" ")[0]}
+                </span>
+                <span className="border border-[#777777] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#777777]">
+                  {user.role}
+                </span>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="border border-[#333] px-3.5 py-1.5 text-xs font-semibold text-[#777777] uppercase tracking-wider hover:border-[#C43C32] hover:text-[#C43C32] transition"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/login"
+                className="px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#BDBDBD] hover:text-white transition border border-transparent hover:border-[#777777]"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/register"
+                className="bg-[#F15A24] px-5 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#171717] transition"
+              >
+                Register
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden border border-[#333] p-2 text-white hover:border-[#F15A24] hover:text-[#F15A24] transition"
+          aria-label="Toggle navigation"
+        >
+          {mobileMenuOpen ? (
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
+        </button>
+      </div>
+
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-[#2a2a2a] bg-[#171717] px-5 py-4 space-y-1">
+          <Link
+            href="/spaces"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`block px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+              isActive("/spaces")
+                ? "text-[#F15A24] border-l-2 border-[#F15A24] pl-3"
+                : "text-[#BDBDBD] hover:text-white hover:border-l-2 hover:border-[#777777] hover:pl-3"
             }`}
           >
             Explore Spaces
@@ -74,20 +226,22 @@ export default function Navbar() {
             <>
               <Link
                 href="/dashboard"
-                className={`rounded-lg px-3.5 py-2 transition ${
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                   isActive("/dashboard")
-                    ? "bg-[#DCE5DC] text-[#263653] font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
+                    ? "text-[#F15A24] border-l-2 border-[#F15A24] pl-3"
+                    : "text-[#BDBDBD] hover:text-white"
                 }`}
               >
                 Dashboard
               </Link>
               <Link
                 href="/bookings"
-                className={`rounded-lg px-3.5 py-2 transition ${
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                   isActive("/bookings")
-                    ? "bg-[#DCE5DC] text-[#263653] font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
+                    ? "text-[#F15A24] border-l-2 border-[#F15A24] pl-3"
+                    : "text-[#BDBDBD] hover:text-white"
                 }`}
               >
                 My Bookings
@@ -97,211 +251,45 @@ export default function Navbar() {
 
           {user && user.role === "ADMIN" && (
             <>
-              <Link
-                href="/admin"
-                className={`rounded-lg px-3.5 py-2 transition ${
-                  pathname === "/admin"
-                    ? "bg-[#263653] text-white font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
-                }`}
-              >
-                Admin Overview
-              </Link>
-              <Link
-                href="/admin/spaces"
-                className={`rounded-lg px-3 py-2 transition ${
-                  isActive("/admin/spaces")
-                    ? "bg-[#263653] text-white font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
-                }`}
-              >
-                Spaces
-              </Link>
-              <Link
-                href="/admin/seats"
-                className={`rounded-lg px-3 py-2 transition ${
-                  isActive("/admin/seats")
-                    ? "bg-[#263653] text-white font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
-                }`}
-              >
-                Seats
-              </Link>
-              <Link
-                href="/admin/occupancy"
-                className={`rounded-lg px-3 py-2 transition ${
-                  isActive("/admin/occupancy")
-                    ? "bg-[#263653] text-white font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
-                }`}
-              >
-                Occupancy
-              </Link>
-              <Link
-                href="/admin/bookings"
-                className={`rounded-lg px-3 py-2 transition ${
-                  isActive("/admin/bookings")
-                    ? "bg-[#263653] text-white font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
-                }`}
-              >
-                Bookings
-              </Link>
-              <Link
-                href="/admin/reports"
-                className={`rounded-lg px-3 py-2 transition ${
-                  isActive("/admin/reports")
-                    ? "bg-[#263653] text-white font-semibold"
-                    : "hover:bg-[#F5F2EA] text-[#263238]"
-                }`}
-              >
-                Reports
-              </Link>
-            </>
-          )}
-        </nav>
-
-        {/* Auth / Account Actions */}
-        <div className="hidden md:flex items-center gap-3">
-          {loading ? (
-            <div className="h-9 w-20 animate-pulse rounded-full bg-slate-100" />
-          ) : user ? (
-            <div className="flex items-center gap-3">
-              <Link
-                href="/profile"
-                className="flex items-center gap-2 rounded-full border border-slate-200 bg-[#F5F2EA] py-1 pl-1.5 pr-3 text-xs font-semibold text-[#263653] hover:border-[#263653] transition"
-              >
-                <div className="grid h-7 w-7 place-items-center rounded-full bg-[#263653] text-white font-bold text-xs">
-                  {user.name.charAt(0)}
-                </div>
-                <span>{user.name}</span>
-                <span className="rounded bg-[#DCE5DC] px-1.5 py-0.5 text-[10px] text-[#263653]">
-                  {user.role}
-                </span>
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-[#777777] hover:border-rose-300 hover:text-rose-600 transition"
-              >
-                Sign out
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Link
-                href="/login"
-                className="rounded-full px-4 py-2 text-xs font-semibold text-[#263653] hover:bg-[#F5F2EA] transition"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-full bg-[#E69A68] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-[#D4834F] transition"
-              >
-                Create Account
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden rounded-lg p-2 text-[#263653] hover:bg-[#F5F2EA]"
-          aria-label="Toggle navigation"
-        >
-          {mobileMenuOpen ? "✕" : "☰"}
-        </button>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-5 py-4 space-y-3">
-          <Link
-            href="/spaces"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-          >
-            Explore Spaces
-          </Link>
-
-          {user && user.role === "STUDENT" && (
-            <>
-              <Link
-                href="/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-              >
-                Dashboard
-              </Link>
-              <Link
-                href="/bookings"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-              >
-                My Bookings
-              </Link>
+              {[
+                { href: "/admin", label: "Dashboard" },
+                { href: "/admin/spaces", label: "Spaces" },
+                { href: "/admin/seats", label: "Seats" },
+                { href: "/admin/occupancy", label: "Occupancy" },
+                { href: "/admin/bookings", label: "Bookings" },
+                { href: "/admin/reports", label: "Reports" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-[#BDBDBD] hover:text-white transition"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </>
           )}
 
-          {user && user.role === "ADMIN" && (
-            <>
-              <Link
-                href="/admin"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-              >
-                Admin Overview
-              </Link>
-              <Link
-                href="/admin/spaces"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-              >
-                Spaces Management
-              </Link>
-              <Link
-                href="/admin/seats"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-              >
-                Seat Management
-              </Link>
-              <Link
-                href="/admin/occupancy"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-              >
-                Occupancy
-              </Link>
-              <Link
-                href="/admin/reports"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#263653]"
-              >
-                Reports
-              </Link>
-            </>
-          )}
-
-          <div className="pt-3 border-t border-slate-100">
+          <div className="pt-4 mt-2 border-t border-[#2a2a2a]">
             {user ? (
               <div className="flex items-center justify-between">
                 <Link
                   href="/profile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-sm font-bold text-[#263653]"
+                  className="text-xs font-bold text-white"
                 >
-                  {user.name} ({user.role})
+                  {user.name}{" "}
+                  <span className="text-[#777777]">({user.role})</span>
                 </Link>
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     handleLogout();
                   }}
-                  className="rounded-lg bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700"
+                  className="border border-[#C43C32] px-3 py-1.5 text-xs font-bold text-[#C43C32] hover:bg-[#C43C32] hover:text-white transition uppercase tracking-wider"
                 >
-                  Sign out
+                  Sign Out
                 </button>
               </div>
             ) : (
@@ -309,14 +297,14 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex-1 rounded-xl border border-slate-200 py-2.5 text-center text-xs font-semibold text-[#263653]"
+                  className="flex-1 border border-[#BDBDBD] py-2.5 text-center text-xs font-bold uppercase tracking-wider text-[#BDBDBD] hover:text-white hover:border-white transition"
                 >
-                  Sign in
+                  Sign In
                 </Link>
                 <Link
                   href="/register"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex-1 rounded-xl bg-[#E69A68] py-2.5 text-center text-xs font-semibold text-white"
+                  className="flex-1 bg-[#F15A24] py-2.5 text-center text-xs font-bold uppercase tracking-wider text-white hover:bg-white hover:text-[#171717] transition"
                 >
                   Register
                 </Link>

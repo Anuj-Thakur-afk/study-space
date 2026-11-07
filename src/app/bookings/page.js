@@ -10,7 +10,7 @@ import BookingHistory from "@/components/student/BookingHistory";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "My Study Space Bookings | StudySpace",
+  title: "My Bookings | StudySpace",
   description: "View and manage your upcoming and past study space reservations.",
 };
 
@@ -39,14 +39,14 @@ export default async function BookingsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-12 space-y-8">
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-wider text-[#E69A68]">
-          Module 2 Reservations
+      <div className="border-b border-[#BDBDBD] pb-6">
+        <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+          Reservations
         </span>
-        <h1 className="mt-1 text-2xl font-extrabold text-[#263653] sm:text-3xl">
-          My Study Space Bookings
+        <h1 className="mt-1 text-4xl font-black uppercase tracking-tight text-[#171717] sm:text-5xl">
+          My Bookings
         </h1>
-        <p className="mt-1 text-xs text-[#777777]">
+        <p className="mt-2 text-xs text-[#777777]">
           Track upcoming desk and group-room bookings, cancel when plans change, and inspect historical study passes.
         </p>
       </div>

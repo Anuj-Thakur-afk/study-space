@@ -82,178 +82,216 @@ export default function SpaceExplorer({ initialSpaces = [] }) {
     floor !== "All floors" ||
     capacity !== "";
 
+  const selectClass =
+    "w-full border border-[#BDBDBD] bg-white px-3 py-2.5 text-xs text-[#171717] font-medium outline-none focus:border-[#171717] transition appearance-none";
+
   return (
     <div className="space-y-8">
-      {/* Search Header Banner */}
-      <section className="relative overflow-hidden rounded-3xl border border-[#263653]/10 bg-white p-6 sm:p-10 shadow-sm">
-        <div className="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-[#DCE5DC]/60 blur-3xl pointer-events-none" />
-        <div className="relative z-10 max-w-3xl">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#DCE5DC] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[#263653]">
-            Campus Space Discovery
-          </span>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-[#263653] sm:text-4xl">
-            Find Your Ideal Academic Space
-          </h1>
-          <p className="mt-3 text-sm text-[#777777] leading-relaxed">
-            Search silent libraries, individual reading desks, collaboration hubs, and group discussion rooms
-            across all campus buildings.
-          </p>
+      {/* Page heading */}
+      <div className="border-b border-[#BDBDBD] pb-8">
+        <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+          Campus Space Discovery
+        </span>
+        <h1 className="mt-1 text-4xl font-black uppercase tracking-tight text-[#171717] sm:text-5xl">
+          Explore Spaces
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm text-[#777777] leading-relaxed">
+          Search silent libraries, individual reading desks, collaboration hubs,
+          and group discussion rooms across all campus buildings.
+        </p>
 
-          {/* Search Bar Input */}
-          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-slate-200 bg-[#F5F2EA] px-4 py-3 shadow-inner transition focus-within:border-[#263653] focus-within:bg-white">
-            <span className="text-lg text-[#777777]">🔍</span>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by space name, building, floor, zone, or facility (e.g. 'Silent', 'Library', 'Whiteboard')..."
-              className="w-full bg-transparent text-sm text-[#263238] placeholder-[#777777] outline-none"
-            />
-            {search && (
-              <button
-                onClick={() => setSearch("")}
-                className="text-xs font-bold text-[#E69A68] hover:underline"
-              >
-                Clear
-              </button>
-            )}
+        {/* Search bar */}
+        <div className="mt-6 flex items-center border border-[#BDBDBD] bg-white focus-within:border-[#171717] transition max-w-2xl">
+          <div className="pl-4 text-[#777777]">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
           </div>
-        </div>
-      </section>
-
-      {/* Filter Controls Bar */}
-      <section aria-label="Filters" className="rounded-2xl border border-[#263653]/10 bg-white p-5 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
-          <div>
-            <h2 className="text-base font-bold text-[#263653]">Refine Study Spaces</h2>
-            <p className="text-xs text-[#777777]">
-              Showing <strong className="text-[#263653]">{filteredSpaces.length}</strong> of {initialSpaces.length} spaces available
-            </p>
-          </div>
-          {isFiltered && (
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search space name, building, floor, zone, or facility..."
+            className="flex-1 bg-transparent py-3 px-3 text-sm text-[#171717] placeholder:text-[#BDBDBD] outline-none"
+          />
+          {search && (
             <button
-              onClick={handleResetFilters}
-              className="rounded-lg bg-[#F5F2EA] px-3 py-1.5 text-xs font-semibold text-[#263653] hover:bg-[#DCE5DC] transition"
+              onClick={() => setSearch("")}
+              className="pr-4 text-xs font-bold uppercase tracking-wider text-[#F15A24] hover:text-[#171717] transition"
             >
-              Reset all filters ↺
+              Clear
             </button>
           )}
         </div>
+      </div>
 
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {/* Study Type */}
-          <div>
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#777777] mb-1.5">
-              Study Type
-            </label>
-            <select
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2.5 text-xs text-[#263238] font-medium outline-none focus:border-[#263653] transition"
-            >
-              {STUDY_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* ── Filter sidebar ───────────────────────────────────────────── */}
+        <aside className="w-full lg:w-56 shrink-0">
+          <div className="border border-[#BDBDBD] bg-white">
+            <div className="border-b border-[#BDBDBD] px-4 py-3 flex items-center justify-between">
+              <span className="text-[9px] font-black uppercase tracking-widest text-[#171717]">
+                Filters
+              </span>
+              {isFiltered && (
+                <button
+                  onClick={handleResetFilters}
+                  className="text-[9px] font-bold uppercase tracking-wider text-[#F15A24] hover:text-[#171717] transition"
+                >
+                  Reset ↺
+                </button>
+              )}
+            </div>
+
+            <div className="divide-y divide-[#BDBDBD]">
+              {/* Study Type */}
+              <div className="p-4">
+                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                  Study Type
+                </label>
+                <div className="space-y-1">
+                  {STUDY_TYPES.map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setType(t)}
+                      className={`w-full text-left px-3 py-2 text-xs font-semibold transition ${
+                        type === t
+                          ? "bg-[#F15A24] text-white"
+                          : "text-[#777777] hover:bg-[#F4F3ED] hover:text-[#171717]"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Availability */}
+              <div className="p-4">
+                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                  Availability
+                </label>
+                <div className="space-y-1">
+                  {AVAILABILITY_OPTIONS.map((a) => (
+                    <button
+                      key={a}
+                      onClick={() => setAvailability(a)}
+                      className={`w-full text-left px-3 py-2 text-xs font-semibold transition ${
+                        availability === a
+                          ? "bg-[#F15A24] text-white"
+                          : "text-[#777777] hover:bg-[#F4F3ED] hover:text-[#171717]"
+                      }`}
+                    >
+                      {a}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Building */}
+              <div className="p-4">
+                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                  Building
+                </label>
+                <div className="relative">
+                  <select
+                    value={building}
+                    onChange={(e) => setBuilding(e.target.value)}
+                    className={selectClass}
+                  >
+                    {buildings.map((b) => (
+                      <option key={b} value={b}>{b}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Floor */}
+              <div className="p-4">
+                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                  Floor Level
+                </label>
+                <div className="relative">
+                  <select
+                    value={floor}
+                    onChange={(e) => setFloor(e.target.value)}
+                    className={selectClass}
+                  >
+                    {floors.map((fl) => (
+                      <option key={fl} value={fl}>{fl}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Min Capacity */}
+              <div className="p-4">
+                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                  Min. Capacity
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  value={capacity}
+                  onChange={(e) => setCapacity(e.target.value)}
+                  placeholder="e.g. 10"
+                  className="w-full border border-[#BDBDBD] bg-white px-3 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717] transition"
+                />
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* ── Results grid ─────────────────────────────────────────────── */}
+        <div className="flex-1 min-w-0">
+          {/* Results header */}
+          <div className="flex items-center justify-between mb-5 pb-4 border-b border-[#BDBDBD]">
+            <div>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-[#777777]">
+                Results
+              </span>
+              <div className="text-xl font-black text-[#171717]">
+                {filteredSpaces.length}
+                <span className="text-sm font-normal text-[#777777] ml-1">
+                  of {initialSpaces.length} spaces
+                </span>
+              </div>
+            </div>
+            {isFiltered && (
+              <button
+                onClick={handleResetFilters}
+                className="border border-[#BDBDBD] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#777777] hover:border-[#F15A24] hover:text-[#F15A24] transition"
+              >
+                Clear Filters
+              </button>
+            )}
+          </div>
+
+          {filteredSpaces.length > 0 ? (
+            <div className="grid gap-px border border-[#BDBDBD] bg-[#BDBDBD] sm:grid-cols-2 xl:grid-cols-3">
+              {filteredSpaces.map((space) => (
+                <SpaceCard key={space.id || space._id} space={space} />
               ))}
-            </select>
-          </div>
-
-          {/* Availability */}
-          <div>
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#777777] mb-1.5">
-              Seat Availability
-            </label>
-            <select
-              value={availability}
-              onChange={(e) => setAvailability(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2.5 text-xs text-[#263238] font-medium outline-none focus:border-[#263653] transition"
-            >
-              {AVAILABILITY_OPTIONS.map((a) => (
-                <option key={a} value={a}>
-                  {a}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Building */}
-          <div>
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#777777] mb-1.5">
-              Building / Complex
-            </label>
-            <select
-              value={building}
-              onChange={(e) => setBuilding(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2.5 text-xs text-[#263238] font-medium outline-none focus:border-[#263653] transition"
-            >
-              {buildings.map((b) => (
-                <option key={b} value={b}>
-                  {b}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Floor */}
-          <div>
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#777777] mb-1.5">
-              Floor Level
-            </label>
-            <select
-              value={floor}
-              onChange={(e) => setFloor(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2.5 text-xs text-[#263238] font-medium outline-none focus:border-[#263653] transition"
-            >
-              {floors.map((fl) => (
-                <option key={fl} value={fl}>
-                  {fl}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Capacity */}
-          <div>
-            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#777777] mb-1.5">
-              Min. Capacity
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={capacity}
-              onChange={(e) => setCapacity(e.target.value)}
-              placeholder="e.g. 10"
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs text-[#263238] font-medium outline-none focus:border-[#263653] transition"
-            />
-          </div>
+            </div>
+          ) : (
+            <div className="border border-dashed border-[#BDBDBD] p-16 text-center">
+              <div className="mb-4 text-5xl font-black text-[#BDBDBD]">?</div>
+              <h3 className="text-base font-black uppercase text-[#171717]">
+                No spaces found
+              </h3>
+              <p className="mt-2 text-xs text-[#777777]">
+                Try adjusting your filters or search term.
+              </p>
+              <button
+                onClick={handleResetFilters}
+                className="mt-5 border border-[#F15A24] bg-[#F15A24] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-transparent hover:text-[#F15A24] transition"
+              >
+                Reset Filters
+              </button>
+            </div>
+          )}
         </div>
-      </section>
-
-      {/* Results Grid or Empty State */}
-      {filteredSpaces.length > 0 ? (
-        <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredSpaces.map((space) => (
-            <SpaceCard key={space.id || space._id} space={space} />
-          ))}
-        </section>
-      ) : (
-        <div className="rounded-3xl border border-dashed border-[#263653]/20 bg-white p-12 text-center shadow-sm">
-          <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-[#F5F2EA] text-3xl">
-            🔍
-          </div>
-          <h3 className="mt-4 text-lg font-bold text-[#263653]">No matching study spaces found</h3>
-          <p className="mt-1 text-sm text-[#777777]">
-            Try adjusting your search criteria, selecting a different building, or resetting filters.
-          </p>
-          <button
-            onClick={handleResetFilters}
-            className="mt-5 rounded-full bg-[#263653] px-6 py-2.5 text-xs font-semibold text-white transition hover:bg-[#E69A68]"
-          >
-            Reset All Filters
-          </button>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

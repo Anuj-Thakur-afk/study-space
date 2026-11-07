@@ -98,19 +98,24 @@ export default function SeatManagement({ spaces = [] }) {
   return (
     <div className="space-y-6">
       {/* Controls & Space Selector */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-[#263653]/10 bg-white p-5 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#BDBDBD] pb-6">
         <div>
-          <h2 className="text-lg font-bold text-[#263653]">Campus Seat Allocations & Layout</h2>
-          <p className="text-xs text-[#777777]">
-            Select a study space to view, add, or update physical seat availability.
+          <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+            Desk Inventory
+          </span>
+          <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
+            Manage Seats
+          </h1>
+          <p className="mt-1 text-xs text-[#777777]">
+            Configure seat units, toggle availability, and assign desk numbers.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <select
             value={selectedSpaceId}
             onChange={(e) => setSelectedSpaceId(e.target.value)}
-            className="rounded-xl border border-slate-200 bg-[#F5F2EA]/60 px-3.5 py-2 text-xs font-bold text-[#263653] outline-none focus:border-[#263653]"
+            className="border border-[#BDBDBD] bg-white px-3.5 py-2 text-xs font-bold text-[#171717] outline-none focus:border-[#171717]"
           >
             {spaces.map((sp) => (
               <option key={sp.id || sp._id} value={sp.id || sp._id}>
@@ -121,7 +126,7 @@ export default function SeatManagement({ spaces = [] }) {
 
           <button
             onClick={() => setAddModalOpen(true)}
-            className="rounded-xl bg-[#263653] px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-[#E69A68] transition"
+            className="border border-[#F15A24] bg-[#F15A24] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#171717] hover:border-[#171717] transition"
           >
             + Add Seat
           </button>
@@ -131,61 +136,61 @@ export default function SeatManagement({ spaces = [] }) {
       {loading ? (
         <LoadingSpinner text="Loading seats for selected space..." />
       ) : error ? (
-        <div className="rounded-xl bg-rose-50 p-4 text-xs text-rose-700">{error}</div>
+        <div className="border border-[#C43C32] bg-[#FAEAE9] p-4 text-xs text-[#C43C32]">{error}</div>
       ) : (
-        <div className="rounded-2xl border border-[#263653]/10 bg-white p-6 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div className="border border-[#BDBDBD] bg-white p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#BDBDBD] pb-4">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#E69A68]">
+              <span className="text-[9px] font-black uppercase tracking-widest text-[#F15A24]">
                 {selectedSpace?.buildingName} · {selectedSpace?.floor}
               </span>
-              <h3 className="text-base font-bold text-[#263653]">{selectedSpace?.name}</h3>
-              <p className="text-xs text-[#777777]">
-                Total Seats: {seats.length} · Available:{" "}
-                <span className="font-bold text-emerald-700">
+              <h3 className="text-base font-black uppercase tracking-tight text-[#171717]">{selectedSpace?.name}</h3>
+              <p className="text-xs text-[#777777] mt-0.5">
+                Total Seats: <span className="font-bold text-[#171717]">{seats.length}</span> · Available:{" "}
+                <span className="font-bold text-[#477A55]">
                   {seats.filter((s) => s.status === "Available").length}
                 </span>{" "}
                 · Occupied:{" "}
-                <span className="font-bold text-amber-700">
+                <span className="font-bold text-[#F15A24]">
                   {seats.filter((s) => s.status === "Occupied").length}
                 </span>
               </p>
             </div>
 
             {/* Status Legend */}
-            <div className="flex items-center gap-3 text-xs">
-              <span className="flex items-center gap-1">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" /> Available
+            <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider">
+              <span className="flex items-center gap-1.5 text-[#477A55]">
+                <span className="h-2 w-2 bg-[#477A55]" /> Available
               </span>
-              <span className="flex items-center gap-1">
-                <span className="h-2.5 w-2.5 rounded-full bg-rose-500" /> Booked
+              <span className="flex items-center gap-1.5 text-[#C43C32]">
+                <span className="h-2 w-2 bg-[#C43C32]" /> Booked
               </span>
-              <span className="flex items-center gap-1">
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-500" /> Occupied
+              <span className="flex items-center gap-1.5 text-[#F15A24]">
+                <span className="h-2 w-2 bg-[#F15A24]" /> Occupied
               </span>
-              <span className="flex items-center gap-1">
-                <span className="h-2.5 w-2.5 rounded-full bg-slate-300" /> Unavailable
+              <span className="flex items-center gap-1.5 text-[#777777]">
+                <span className="h-2 w-2 bg-[#BDBDBD]" /> Unavailable
               </span>
             </div>
           </div>
 
           {/* Seat Grid Display */}
-          <div className="mt-8 flex flex-wrap gap-3 justify-center">
+          <div className="mt-8 flex flex-wrap gap-2.5 justify-center">
             {seats.map((seat) => {
-              let badgeColor = "bg-emerald-50 border-emerald-300 text-emerald-800 hover:border-emerald-500";
-              if (seat.status === "Booked") badgeColor = "bg-rose-50 border-rose-300 text-rose-800";
-              if (seat.status === "Occupied") badgeColor = "bg-amber-50 border-amber-300 text-amber-800";
-              if (seat.status === "Unavailable") badgeColor = "bg-slate-100 border-slate-300 text-slate-500";
+              let badgeColor = "bg-white border-[#477A55]/40 text-[#477A55] hover:border-[#477A55]";
+              if (seat.status === "Booked") badgeColor = "bg-[#FAEAE9] border-[#C43C32]/40 text-[#C43C32]";
+              if (seat.status === "Occupied") badgeColor = "bg-[#FFE1D5] border-[#F15A24]/40 text-[#F15A24]";
+              if (seat.status === "Unavailable") badgeColor = "bg-[#F4F3ED] border-[#BDBDBD] text-[#777777]";
 
               return (
                 <div
                   key={seat.id || seat._id}
                   onClick={() => setEditingSeat(seat)}
-                  className={`flex h-16 w-16 cursor-pointer flex-col items-center justify-center rounded-xl border p-1 shadow-sm transition hover:scale-105 ${badgeColor}`}
-                  title="Click to update seat status or configuration"
+                  className={`flex h-14 w-14 cursor-pointer flex-col items-center justify-center border p-1 transition duration-150 hover:scale-105 ${badgeColor}`}
+                  title="Click to update status"
                 >
-                  <span className="text-xs font-bold">{seat.seatNumber}</span>
-                  <span className="text-[10px] uppercase font-semibold mt-0.5">
+                  <span className="text-xs font-black">{seat.seatNumber}</span>
+                  <span className="text-[8px] uppercase font-bold tracking-wider mt-0.5">
                     {seat.status.slice(0, 4)}
                   </span>
                 </div>
@@ -203,11 +208,11 @@ export default function SeatManagement({ spaces = [] }) {
       >
         <div>
           <p className="text-xs text-[#777777]">
-            Update physical availability or mark seat unavailable for maintenance.
+            Update physical status or mark seat unavailable for maintenance.
           </p>
 
           <div className="mt-4 space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777]">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777]">
               Current Status:
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -217,10 +222,10 @@ export default function SeatManagement({ spaces = [] }) {
                   type="button"
                   onClick={() => handleStatusChange(editingSeat.id || editingSeat._id, st)}
                   disabled={actionLoading}
-                  className={`rounded-xl border py-2 text-xs font-bold transition ${
+                  className={`border py-2 text-xs font-bold uppercase tracking-wider transition ${
                     editingSeat?.status === st
-                      ? "border-[#263653] bg-[#263653] text-white"
-                      : "border-slate-200 bg-[#F5F2EA] text-[#263238] hover:bg-[#DCE5DC]"
+                      ? "border-[#F15A24] bg-[#F15A24] text-white"
+                      : "border-[#BDBDBD] bg-white text-[#171717] hover:border-[#171717]"
                   }`}
                 >
                   {st}
@@ -232,7 +237,7 @@ export default function SeatManagement({ spaces = [] }) {
           <div className="mt-6 flex justify-end">
             <button
               onClick={() => setEditingSeat(null)}
-              className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-[#263238]"
+              className="border border-[#BDBDBD] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#171717]"
             >
               Close
             </button>
@@ -244,26 +249,26 @@ export default function SeatManagement({ spaces = [] }) {
       <Modal
         isOpen={addModalOpen}
         onClose={() => setAddModalOpen(false)}
-        title={`Add New Seat to ${selectedSpace?.name}`}
+        title={`Add Seat to ${selectedSpace?.name}`}
       >
         <form onSubmit={handleAddSeat} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
-              Seat Number / Identifier
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1">
+              Seat Number / ID
             </label>
             <input
               type="text"
               value={newSeatNumber}
               onChange={(e) => setNewSeatNumber(e.target.value)}
               placeholder="e.g. S-33, DESK-04"
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3 py-2 text-xs text-[#171717] outline-none focus:border-[#171717]"
               required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1">
                 Row Number
               </label>
               <input
@@ -271,11 +276,11 @@ export default function SeatManagement({ spaces = [] }) {
                 min="1"
                 value={newSeatRow}
                 onChange={(e) => setNewSeatRow(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3 py-2 text-xs text-[#171717] outline-none focus:border-[#171717]"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1">
                 Column Number
               </label>
               <input
@@ -283,21 +288,21 @@ export default function SeatManagement({ spaces = [] }) {
                 min="1"
                 value={newSeatCol}
                 onChange={(e) => setNewSeatCol(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3 py-2 text-xs text-[#171717] outline-none focus:border-[#171717]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1">
               Features (comma separated)
             </label>
             <input
               type="text"
               value={newSeatFeatures}
               onChange={(e) => setNewSeatFeatures(e.target.value)}
-              placeholder="Power Socket, Window View, Desk Lamp"
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              placeholder="Power Socket, Window View"
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3 py-2 text-xs text-[#171717] outline-none focus:border-[#171717]"
             />
           </div>
 
@@ -305,14 +310,14 @@ export default function SeatManagement({ spaces = [] }) {
             <button
               type="button"
               onClick={() => setAddModalOpen(false)}
-              className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-[#263238]"
+              className="border border-[#BDBDBD] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#171717]"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={actionLoading}
-              className="rounded-xl bg-[#263653] px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-[#E69A68]"
+              className="border border-[#F15A24] bg-[#F15A24] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#171717] hover:border-[#171717] transition"
             >
               {actionLoading ? "Adding..." : "Add Seat"}
             </button>

@@ -33,7 +33,7 @@ async function getAdminOverviewData() {
     .populate("seatId", "seatNumber")
     .populate("userId", "name email")
     .sort({ createdAt: -1 })
-    .limit(5)
+    .limit(6)
     .lean();
 
   return {
@@ -54,35 +54,64 @@ async function getAdminOverviewData() {
 export default async function AdminDashboardPage() {
   const { stats, recentBookings } = await getAdminOverviewData();
 
+  const occupancyRate =
+    stats.totalSeats > 0
+      ? Math.round(((stats.bookedSeats + stats.occupiedSeats) / stats.totalSeats) * 100)
+      : 0;
+
   return (
     <div className="space-y-8">
-      {/* Overview Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#BDBDBD] pb-6">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E69A68]">
-            Module 3 Administration
+          <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+            Campus Management
           </span>
-          <h1 className="mt-1 text-2xl font-extrabold text-[#263653] sm:text-3xl">
-            Campus Workspace Administration
+          <h1 className="mt-1 text-4xl font-black uppercase tracking-tight text-[#171717] sm:text-5xl leading-none">
+            Admin Overview
           </h1>
-          <p className="mt-1 text-xs text-[#777777]">
-            Overview of real-time seat inventory, student booking traffic, and physical occupancy.
+          <p className="mt-2 text-xs text-[#777777]">
+            Real-time seat inventory, physical occupancy, and booking flow across campus.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
           <Link
             href="/admin/spaces/add"
-            className="rounded-xl bg-[#263653] px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#E69A68] transition"
+            className="border border-[#F15A24] bg-[#F15A24] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#171717] hover:border-[#171717] transition"
           >
             + Add Space
           </Link>
           <Link
             href="/admin/occupancy"
-            className="rounded-xl bg-[#E69A68] px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#D4834F] transition"
+            className="border border-[#171717] bg-[#171717] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#F15A24] hover:border-[#F15A24] transition"
           >
             Verify Occupancy
           </Link>
+        </div>
+      </div>
+
+      {/* Occupancy Indicator Banner */}
+      <div className="border border-[#BDBDBD] bg-white p-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <div>
+            <span className="text-[9px] font-black uppercase tracking-widest text-[#777777]">
+              Campus Occupancy Load
+            </span>
+            <div className="text-2xl font-black text-[#171717]">{occupancyRate}% Occupied</div>
+          </div>
+          <div className="text-xs text-[#777777]">
+            <span className="font-bold text-[#171717]">{stats.bookedSeats + stats.occupiedSeats}</span> of{" "}
+            <span className="font-bold text-[#171717]">{stats.totalSeats}</span> seats actively utilized
+          </div>
+        </div>
+        <div className="h-2 w-full bg-[#F4F3ED] border border-[#BDBDBD]">
+          <div
+            className={`h-full transition-all duration-300 ${
+              occupancyRate > 75 ? "bg-[#C43C32]" : occupancyRate > 40 ? "bg-[#F15A24]" : "bg-[#477A55]"
+            }`}
+            style={{ width: `${occupancyRate}%` }}
+          />
         </div>
       </div>
 
@@ -90,23 +119,27 @@ export default async function AdminDashboardPage() {
       <AdminStats stats={stats} />
 
       {/* Recent Bookings Table */}
-      <div className="overflow-hidden rounded-2xl border border-[#263653]/10 bg-white shadow-sm">
-        <div className="flex items-center justify-between border-b border-slate-100 bg-[#F5F2EA] px-6 py-4">
+      <div className="border border-[#BDBDBD] bg-white">
+        <div className="flex items-center justify-between border-b border-[#BDBDBD] bg-[#F4F3ED] px-6 py-4">
           <div>
-            <h3 className="text-sm font-bold text-[#263653]">Recent Reservation Requests</h3>
-            <p className="text-xs text-[#777777]">Latest student bookings submitted to MongoDB</p>
+            <h3 className="text-xs font-black uppercase tracking-widest text-[#171717]">
+              Recent Booking Requests
+            </h3>
+            <p className="text-[10px] text-[#777777] uppercase tracking-wider mt-0.5">
+              Live reservations recorded in MongoDB
+            </p>
           </div>
           <Link
             href="/admin/bookings"
-            className="text-xs font-bold text-[#263653] hover:text-[#E69A68] transition"
+            className="text-xs font-bold uppercase tracking-wider text-[#777777] hover:text-[#F15A24] transition"
           >
-            View all bookings →
+            View all →
           </Link>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-slate-100 bg-slate-50 text-[#263653] font-bold uppercase tracking-wider">
+            <thead className="border-b border-[#BDBDBD] bg-white text-[#777777] font-bold uppercase tracking-wider text-[9px]">
               <tr>
                 <th className="px-5 py-3">Student</th>
                 <th className="px-4 py-3">Facility</th>
@@ -115,18 +148,18 @@ export default async function AdminDashboardPage() {
                 <th className="px-4 py-3">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-[#263238]">
+            <tbody className="divide-y divide-[#BDBDBD] text-[#171717]">
               {recentBookings.map((b) => (
-                <tr key={b.id} className="hover:bg-slate-50 transition">
+                <tr key={b.id} className="hover:bg-[#F4F3ED] transition">
                   <td className="px-5 py-3.5">
-                    <span className="font-bold text-[#263653]">{b.userId?.name || "Student"}</span>
-                    <span className="block text-[11px] text-[#777777]">{b.userId?.email}</span>
+                    <span className="font-bold">{b.userId?.name || "Student"}</span>
+                    <span className="block text-[10px] text-[#777777]">{b.userId?.email}</span>
                   </td>
-                  <td className="px-4 py-3.5 font-medium">{b.studySpaceId?.name}</td>
-                  <td className="px-4 py-3.5 font-bold text-[#263653]">
+                  <td className="px-4 py-3.5 font-semibold">{b.studySpaceId?.name}</td>
+                  <td className="px-4 py-3.5 font-bold">
                     {b.seatId?.seatNumber || "Full Room"}
                   </td>
-                  <td className="px-4 py-3.5">
+                  <td className="px-4 py-3.5 text-[#777777]">
                     {b.bookingDate} ({b.startTime} – {b.endTime})
                   </td>
                   <td className="px-4 py-3.5">

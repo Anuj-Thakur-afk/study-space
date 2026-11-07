@@ -61,41 +61,46 @@ export default function SpaceManagement({ initialSpaces = [] }) {
   return (
     <div className="space-y-6">
       {/* Top Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-[#263653]/10 bg-white p-5 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#BDBDBD] pb-6">
         <div>
-          <h2 className="text-lg font-bold text-[#263653]">Campus Study Spaces Management</h2>
-          <p className="text-xs text-[#777777]">
-            Create, configure, edit, and deactivate study facilities across campus.
+          <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+            Facility Inventory
+          </span>
+          <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
+            Manage Spaces
+          </h1>
+          <p className="mt-1 text-xs text-[#777777]">
+            Configure and maintain study facilities across all campus zones.
           </p>
         </div>
         <Link
           href="/admin/spaces/add"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#263653] px-4 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#E69A68] transition"
+          className="border border-[#F15A24] bg-[#F15A24] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#171717] hover:border-[#171717] transition"
         >
-          <span>+ Add New Space</span>
+          + Add New Space
         </Link>
       </div>
 
       {/* Filter Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border border-[#BDBDBD] bg-white p-4">
         <div className="w-full sm:w-72">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search spaces by name, building, floor..."
-            className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+            className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3 py-2 text-xs text-[#171717] outline-none focus:border-[#171717] transition"
           />
         </div>
 
         <div className="flex items-center gap-2">
-          <label className="text-[11px] font-bold uppercase tracking-wider text-[#777777]">
+          <label className="text-[9px] font-black uppercase tracking-widest text-[#777777]">
             Type:
           </label>
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-1.5 text-xs text-[#263238] outline-none focus:border-[#263653]"
+            className="border border-[#BDBDBD] bg-white px-3 py-1.5 text-xs text-[#171717] font-semibold outline-none focus:border-[#171717] transition"
           >
             <option value="All">All Types</option>
             <option value="Silent Study">Silent Study</option>
@@ -107,10 +112,10 @@ export default function SpaceManagement({ initialSpaces = [] }) {
       </div>
 
       {/* Spaces Table */}
-      <div className="overflow-hidden rounded-2xl border border-[#263653]/10 bg-white shadow-sm">
+      <div className="border border-[#BDBDBD] bg-white">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-slate-100 bg-[#F5F2EA] text-[#263653] font-bold uppercase tracking-wider">
+            <thead className="border-b border-[#BDBDBD] bg-[#F4F3ED] text-[#777777] font-bold uppercase tracking-wider text-[9px]">
               <tr>
                 <th className="px-5 py-3.5">Space Name & Type</th>
                 <th className="px-4 py-3.5">Building & Floor</th>
@@ -120,27 +125,27 @@ export default function SpaceManagement({ initialSpaces = [] }) {
                 <th className="px-5 py-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-[#263238]">
+            <tbody className="divide-y divide-[#BDBDBD] text-[#171717]">
               {filteredSpaces.map((space) => (
-                <tr key={space.id || space._id} className="hover:bg-slate-50 transition">
+                <tr key={space.id || space._id} className="hover:bg-[#F4F3ED] transition">
                   <td className="px-5 py-4">
-                    <div className="font-bold text-[#263653]">{space.name}</div>
-                    <div className="text-[11px] text-[#E69A68] font-semibold">{space.studyType}</div>
+                    <div className="font-bold text-[#171717]">{space.name}</div>
+                    <div className="text-[10px] text-[#F15A24] font-bold uppercase tracking-wider">{space.studyType}</div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="font-medium">{space.buildingName || space.building}</div>
-                    <div className="text-[#777777] text-[11px]">{space.floor}</div>
+                    <div className="font-semibold">{space.buildingName || space.building}</div>
+                    <div className="text-[#777777] text-[10px]">{space.floor}</div>
                   </td>
                   <td className="px-4 py-4 text-[#777777]">{space.zone || space.location}</td>
                   <td className="px-4 py-4">
-                    <span className="font-bold text-[#263653]">{space.totalSeats}</span> total
+                    <span className="font-black text-[#171717]">{space.totalSeats}</span>
                   </td>
                   <td className="px-4 py-4">
                     <span
-                      className={`inline-flex rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                      className={`inline-flex border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
                         space.isActive !== false
-                          ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          : "bg-slate-100 text-slate-500 border border-slate-200"
+                          ? "border-[#477A55]/30 bg-[#E8F2EC] text-[#477A55]"
+                          : "border-[#BDBDBD] bg-[#F4F3ED] text-[#777777]"
                       }`}
                     >
                       {space.isActive !== false ? "Active" : "Inactive"}
@@ -150,14 +155,14 @@ export default function SpaceManagement({ initialSpaces = [] }) {
                     <div className="flex items-center justify-end gap-2">
                       <Link
                         href={`/admin/spaces/${space.id || space._id}/edit`}
-                        className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-[#263653] hover:border-[#263653] transition"
+                        className="border border-[#BDBDBD] bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#171717] hover:border-[#171717] transition"
                       >
                         Edit
                       </Link>
                       {space.isActive !== false && (
                         <button
                           onClick={() => setDeletingSpace(space)}
-                          className="rounded-lg px-2.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition"
+                          className="border border-[#C43C32] px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider text-[#C43C32] hover:bg-[#C43C32] hover:text-white transition"
                         >
                           Deactivate
                         </button>
@@ -175,29 +180,29 @@ export default function SpaceManagement({ initialSpaces = [] }) {
       <Modal
         isOpen={!!deletingSpace}
         onClose={() => setDeletingSpace(null)}
-        title="Deactivate Study Space"
+        title="Deactivate Space"
       >
         <div>
           <p className="text-xs text-[#777777] leading-relaxed">
-            Are you sure you want to deactivate <strong className="text-[#263653]">{deletingSpace?.name}</strong>?
+            Are you sure you want to deactivate <strong className="text-[#171717]">{deletingSpace?.name}</strong>?
           </p>
-          <p className="mt-2 text-xs text-amber-800 bg-amber-50 p-2.5 rounded-lg border border-amber-200">
+          <p className="mt-3 text-xs text-[#F15A24] bg-[#FFE1D5] p-3 border border-[#F15A24]/30">
             Deactivated study spaces will no longer appear in student discovery or accept new reservations.
           </p>
-          {actionError && <p className="mt-2 text-xs text-rose-700">{actionError}</p>}
+          {actionError && <p className="mt-2 text-xs text-[#C43C32] font-semibold">{actionError}</p>}
           <div className="mt-6 flex justify-end gap-2.5">
             <button
               onClick={() => setDeletingSpace(null)}
-              className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-[#263238]"
+              className="border border-[#BDBDBD] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#171717]"
             >
               Cancel
             </button>
             <button
               onClick={handleDeleteConfirm}
               disabled={actionLoading}
-              className="rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-rose-700"
+              className="border border-[#C43C32] bg-[#C43C32] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-black hover:border-black transition"
             >
-              {actionLoading ? <LoadingSpinner size="sm" text="" /> : "Confirm Deactivation"}
+              {actionLoading ? <LoadingSpinner size="sm" text="" /> : "Deactivate"}
             </button>
           </div>
         </div>

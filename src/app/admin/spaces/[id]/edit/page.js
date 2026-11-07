@@ -88,7 +88,7 @@ export default function EditSpacePage() {
 
   if (!formData) {
     return (
-      <div className="rounded-2xl bg-rose-50 p-6 text-xs text-rose-700">
+      <div className="border border-[#C43C32] bg-[#FAEAE9] p-6 text-xs text-[#C43C32]">
         Space not found. <Link href="/admin/spaces" className="underline font-bold">Return to spaces</Link>
       </div>
     );
@@ -96,32 +96,34 @@ export default function EditSpacePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-[#BDBDBD] pb-6">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E69A68]">
-            Space Administration
+          <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+            Facility Maintenance
           </span>
-          <h1 className="mt-1 text-2xl font-extrabold text-[#263653]">Edit Study Space</h1>
+          <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
+            Edit Study Space
+          </h1>
         </div>
         <Link
           href="/admin/spaces"
-          className="text-xs font-bold text-[#263653] hover:text-[#E69A68] transition"
+          className="text-xs font-bold uppercase tracking-wider text-[#777777] hover:text-[#F15A24] transition"
         >
           ← Cancel & Back
         </Link>
       </div>
 
-      <div className="rounded-2xl border border-[#263653]/10 bg-white p-6 sm:p-8 shadow-sm">
+      <div className="border border-[#BDBDBD] bg-white p-6 sm:p-8">
         {error && (
-          <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700">
-            ⚠️ {error}
+          <div className="mb-6 border border-[#C43C32] bg-[#FAEAE9] p-3 text-xs text-[#C43C32]">
+            {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Space Name
               </label>
               <input
@@ -129,13 +131,13 @@ export default function EditSpacePage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Building Name
               </label>
               <input
@@ -143,7 +145,7 @@ export default function EditSpacePage() {
                 name="buildingName"
                 value={formData.buildingName}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
@@ -151,7 +153,7 @@ export default function EditSpacePage() {
 
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Floor
               </label>
               <input
@@ -159,13 +161,13 @@ export default function EditSpacePage() {
                 name="floor"
                 value={formData.floor}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Zone / Wing
               </label>
               <input
@@ -173,20 +175,20 @@ export default function EditSpacePage() {
                 name="zone"
                 value={formData.zone}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Study Type
               </label>
               <select
                 name="studyType"
                 value={formData.studyType}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs font-bold text-[#263653] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-white px-3.5 py-2.5 text-xs font-bold text-[#171717] outline-none focus:border-[#171717]"
               >
                 <option value="Silent Study">Silent Study</option>
                 <option value="Individual Study">Individual Study</option>
@@ -197,7 +199,7 @@ export default function EditSpacePage() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Total Seat Capacity
             </label>
             <input
@@ -206,13 +208,13 @@ export default function EditSpacePage() {
               min="1"
               value={formData.totalSeats}
               onChange={handleChange}
-              className="w-full sm:w-48 rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full sm:w-48 border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Description
             </label>
             <textarea
@@ -220,13 +222,13 @@ export default function EditSpacePage() {
               rows={3}
               value={formData.description}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Facilities (comma separated)
             </label>
             <input
@@ -234,12 +236,12 @@ export default function EditSpacePage() {
               name="facilities"
               value={formData.facilities}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Usage Rules (comma separated)
             </label>
             <input
@@ -247,7 +249,7 @@ export default function EditSpacePage() {
               name="usageRules"
               value={formData.usageRules}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
             />
           </div>
 
@@ -258,9 +260,9 @@ export default function EditSpacePage() {
               name="isActive"
               checked={formData.isActive}
               onChange={handleChange}
-              className="h-4 w-4 rounded border-slate-300 text-[#263653]"
+              className="h-4 w-4 border-[#BDBDBD]"
             />
-            <label htmlFor="isActive" className="text-xs font-semibold text-[#263238]">
+            <label htmlFor="isActive" className="text-xs font-bold uppercase tracking-wider text-[#171717]">
               Active (Visible in student search)
             </label>
           </div>
@@ -268,14 +270,14 @@ export default function EditSpacePage() {
           <div className="pt-4 flex justify-end gap-3">
             <Link
               href="/admin/spaces"
-              className="rounded-xl border border-slate-200 px-5 py-2.5 text-xs font-semibold text-[#263238]"
+              className="border border-[#BDBDBD] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#171717]"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={saving}
-              className="rounded-xl bg-[#263653] px-6 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#E69A68] transition"
+              className="border border-[#F15A24] bg-[#F15A24] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#171717] hover:border-[#171717] transition"
             >
               {saving ? <LoadingSpinner size="sm" text="" /> : "Save Changes"}
             </button>

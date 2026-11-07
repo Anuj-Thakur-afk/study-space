@@ -16,7 +16,14 @@ const UserSchema = new mongoose.Schema(
     },
     passwordHash: {
       type: String,
-      required: [true, "Password hash is required"],
+      // Not required — Google OAuth users won't have a password
+      default: null,
+    },
+    googleId: {
+      // Google `sub` claim — unique identifier for Google accounts
+      type: String,
+      default: null,
+      sparse: true, // Allow multiple null values in the unique index
     },
     role: {
       type: String,

@@ -1,49 +1,44 @@
 export default function StatusBadge({ status, size = "md" }) {
-  const sizeClasses = size === "sm" ? "px-2.5 py-0.5 text-xs" : "px-3 py-1 text-xs font-semibold";
+  const sizeClasses =
+    size === "sm"
+      ? "px-2 py-0.5 text-[10px]"
+      : "px-2.5 py-1 text-xs";
 
-  let colorClasses = "bg-slate-100 text-slate-700 border-slate-200";
+  let colorClasses = "bg-[#F4F3ED] text-[#777777] border-[#BDBDBD]";
+  let dotColor = "bg-[#BDBDBD]";
 
   switch (status) {
     case "Available":
     case "Confirmed":
-      // Green
-      colorClasses = "bg-emerald-50 text-emerald-800 border-emerald-200";
+      colorClasses = "bg-[#E8F2EC] text-[#477A55] border-[#477A55]/30";
+      dotColor = "bg-[#477A55]";
       break;
     case "Booked":
     case "Cancelled":
-      // Red
-      colorClasses = "bg-rose-50 text-rose-800 border-rose-200";
+      colorClasses = "bg-[#FAEAE9] text-[#C43C32] border-[#C43C32]/30";
+      dotColor = "bg-[#C43C32]";
       break;
     case "Occupied":
     case "Limited":
-      // Orange / Terracotta
-      colorClasses = "bg-amber-50 text-amber-800 border-amber-200";
+      colorClasses = "bg-[#FFE1D5] text-[#F15A24] border-[#F15A24]/30";
+      dotColor = "bg-[#F15A24]";
       break;
     case "Unavailable":
     case "Full":
     case "Completed":
-      // Grey
-      colorClasses = "bg-slate-100 text-slate-600 border-slate-200";
+      colorClasses = "bg-[#F4F3ED] text-[#777777] border-[#BDBDBD]";
+      dotColor = "bg-[#BDBDBD]";
       break;
     default:
-      colorClasses = "bg-[#DCE5DC] text-[#263653] border-[#B8CBB8]";
+      colorClasses = "bg-[#F4F3ED] text-[#777777] border-[#BDBDBD]";
+      dotColor = "bg-[#BDBDBD]";
   }
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border ${sizeClasses} ${colorClasses}`}
+      className={`inline-flex items-center gap-1.5 border font-semibold uppercase tracking-wider ${sizeClasses} ${colorClasses}`}
     >
-      <span
-        className={`h-1.5 w-1.5 rounded-full ${
-          status === "Available" || status === "Confirmed"
-            ? "bg-emerald-600"
-            : status === "Booked" || status === "Cancelled"
-            ? "bg-rose-600"
-            : status === "Occupied" || status === "Limited"
-            ? "bg-amber-600"
-            : "bg-slate-400"
-        }`}
-      />
+      <span className={`h-1.5 w-1.5 ${dotColor}`} />
       {status}
     </span>
   );

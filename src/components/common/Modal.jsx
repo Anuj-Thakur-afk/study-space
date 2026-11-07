@@ -22,16 +22,16 @@ export default function Modal({ isOpen, onClose, title, children }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       <div
-        className="fixed inset-0 bg-[#263653]/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#171717]/70 backdrop-blur-xs transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl transition-all">
-        <div className="flex items-center justify-between border-b border-slate-100 bg-[#F5F2EA] px-6 py-4">
-          <h3 className="text-base font-bold text-[#263653]">{title}</h3>
+      <div className="relative w-full max-w-lg border-2 border-[#171717] bg-white transition-all shadow-xl">
+        <div className="flex items-center justify-between border-b border-[#BDBDBD] bg-[#171717] px-6 py-4">
+          <h3 className="text-xs font-black uppercase tracking-widest text-white">{title}</h3>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 text-[#777777] hover:bg-white hover:text-[#263653] transition"
+            className="p-1 text-[#BDBDBD] hover:text-white transition"
             aria-label="Close modal"
           >
             ✕

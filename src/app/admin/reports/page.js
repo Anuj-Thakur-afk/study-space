@@ -104,15 +104,15 @@ export default async function AdminReportsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <span className="text-[10px] font-bold uppercase tracking-wider text-[#E69A68]">
-          Module 3 Analytics
+      <div className="border-b border-[#BDBDBD] pb-6">
+        <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+          Analytics & Intelligence
         </span>
-        <h1 className="mt-1 text-2xl font-extrabold text-[#263653]">
-          Campus Space Utilization Reports
+        <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
+          Utilisation Reports
         </h1>
         <p className="mt-1 text-xs text-[#777777]">
-          Data-driven summaries on high-traffic study rooms, underutilized zones, building distributions, and peak examination times.
+          Data-driven summaries on high-traffic study rooms, underutilized zones, and peak examination times.
         </p>
       </div>
 

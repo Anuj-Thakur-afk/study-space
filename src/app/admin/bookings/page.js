@@ -5,6 +5,8 @@ import Seat from "@/models/Seat";
 import User from "@/models/User";
 import BookingManagement from "@/components/admin/BookingManagement";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "All Bookings | StudySpace Admin",
 };

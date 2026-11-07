@@ -4,6 +4,8 @@ import StudySpace from "@/models/StudySpace";
 import Seat from "@/models/Seat";
 import SpaceCard from "@/components/discovery/SpaceCard";
 
+export const dynamic = "force-dynamic";
+
 async function getFeaturedSpaces() {
   try {
     await connectDB();
@@ -21,7 +23,8 @@ async function getFeaturedSpaces() {
 
         let calculatedAvailability = "Available";
         if (availableCount === 0) calculatedAvailability = "Full";
-        else if (availableCount <= Math.max(1, Math.floor(sp.totalSeats * 0.25))) calculatedAvailability = "Limited";
+        else if (availableCount <= Math.max(1, Math.floor(sp.totalSeats * 0.25)))
+          calculatedAvailability = "Limited";
 
         return {
           ...sp,
@@ -44,245 +47,237 @@ export default async function HomePage() {
 
   const categories = [
     {
-      title: "Silent Study Zones",
-      desc: "Zero-distraction acoustic spaces for deep reading and exam preparation.",
+      title: "Silent Study",
+      desc: "Zero-distraction acoustic spaces for deep reading and exam prep.",
       type: "Silent Study",
-      icon: "📚",
-      color: "bg-[#DCE5DC]",
+      code: "SS",
     },
     {
       title: "Individual Desks",
-      desc: "Private carrels equipped with power sockets and dedicated task lamps.",
+      desc: "Private carrels with power sockets and dedicated task lamps.",
       type: "Individual Study",
-      icon: "🪑",
-      color: "bg-[#F5F2EA]",
+      code: "ID",
     },
     {
-      title: "Group Study Rooms",
-      desc: "Enclosed rooms with 4K monitors and whiteboards for team project sprints.",
+      title: "Group Rooms",
+      desc: "Enclosed rooms with 4K monitors and whiteboards.",
       type: "Group Study",
-      icon: "👥",
-      color: "bg-[#F7EEDC]",
+      code: "GR",
     },
     {
       title: "Discussion Pods",
-      desc: "Collaborative roundtables ideal for thesis discussions and peer tutoring.",
+      desc: "Roundtables for thesis discussions and peer tutoring.",
       type: "Discussion Room",
-      icon: "💬",
-      color: "bg-[#EAEFF4]",
+      code: "DP",
     },
   ];
 
   return (
-    <div className="space-y-16 pb-20">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-[#263653]/10 bg-[#FFFFFF] pt-12 pb-20 sm:pt-20 sm:pb-28">
+    <div>
+      {/* ─── HERO ─────────────────────────────────────────────────────────── */}
+      <section className="border-b border-[#BDBDBD] bg-[#171717]">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#DCE5DC] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#263653]">
-                <span className="h-2 w-2 rounded-full bg-[#E69A68]" />
-                University Campus Study Guide & Booking Platform
+          <div className="grid gap-0 lg:grid-cols-2 min-h-[520px]">
+            {/* Left copy */}
+            <div className="flex flex-col justify-center py-16 pr-0 lg:pr-12">
+              <div className="inline-flex items-center gap-2 border border-[#F15A24]/30 px-3 py-1.5 w-fit mb-8">
+                <span className="h-1.5 w-1.5 bg-[#F15A24] animate-pulse" />
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+                  Live Campus Availability
+                </span>
               </div>
 
-              <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-[#263653] sm:text-6xl sm:leading-[1.1]">
-                Find Your Space. <br />
-                <span className="text-[#E69A68]">Focus on Your Goals.</span>
+              <h1 className="text-5xl font-black uppercase leading-none tracking-tight text-white sm:text-6xl xl:text-7xl">
+                Find Your<br />
+                <span className="text-[#F15A24]">Space.</span>
+                <br />Focus On<br />Your Goals.
               </h1>
 
-              <p className="mt-6 max-w-xl text-base text-[#777777] leading-relaxed">
+              <p className="mt-8 max-w-md text-sm text-white/60 leading-relaxed">
                 During examination periods, students waste precious time searching for open desks.
-                StudySpace connects you with real-time room availability, visual seat layouts, and instant reservations.
+                StudySpace connects you with real-time room availability, visual seat layouts,
+                and instant reservations.
               </p>
 
-              {/* CTAs */}
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-10 flex flex-wrap gap-3">
                 <Link
                   href="/spaces"
-                  className="rounded-full bg-[#263653] px-7 py-3.5 text-sm font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#E69A68]"
+                  className="border border-[#F15A24] bg-[#F15A24] px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-transparent hover:text-[#F15A24]"
                 >
-                  Explore All Study Spaces →
+                  Explore All Spaces →
                 </Link>
-                <a
-                  href="#how-it-works"
-                  className="rounded-full border border-slate-200 bg-[#F5F2EA] px-6 py-3.5 text-sm font-bold text-[#263238] hover:border-[#263653] transition"
+                <Link
+                  href="/register"
+                  className="border border-white/20 px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-white/70 transition hover:border-white hover:text-white"
                 >
-                  How StudySpace Works
-                </a>
+                  Create Account
+                </Link>
               </div>
 
-              {/* Metric stats */}
-              <div className="mt-12 grid grid-cols-3 gap-6 border-t border-slate-100 pt-8">
-                <div>
-                  <div className="text-2xl font-extrabold text-[#263653]">100%</div>
-                  <div className="text-xs text-[#777777] mt-0.5">Live Occupancy</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-extrabold text-[#263653]">4 Categories</div>
-                  <div className="text-xs text-[#777777] mt-0.5">Silent to Collaborative</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-extrabold text-[#263653]">Zero</div>
-                  <div className="text-xs text-[#777777] mt-0.5">Double-booking Conflicts</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Visual Hero Mockup */}
-            <div className="relative">
-              <div className="absolute -inset-4 rounded-3xl bg-[#DCE5DC]/50 blur-2xl" />
-              <div className="relative overflow-hidden rounded-3xl border border-[#263653]/10 bg-[#F5F2EA] p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center justify-between border-b border-slate-200/60 pb-4">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#777777]">
-                      Live Campus Status
-                    </span>
-                    <h3 className="text-sm font-bold text-[#263653]">Available Spaces Today</h3>
-                  </div>
-                  <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-800 border border-emerald-200">
-                    🟢 Open Now
-                  </span>
-                </div>
-
-                <div className="mt-5 space-y-3">
-                  {[
-                    {
-                      name: "Central Library Silent Hall",
-                      sub: "Floor 2 · North Wing",
-                      seats: "32 Desks",
-                      type: "Silent Study",
-                    },
-                    {
-                      name: "Innovation Hub Team Room",
-                      sub: "Ground Floor · Room G-04",
-                      seats: "8 Seats",
-                      type: "Group Study",
-                    },
-                    {
-                      name: "Learning Centre Lounge",
-                      sub: "Floor 1 · East Wing",
-                      seats: "24 Desks",
-                      type: "Individual Study",
-                    },
-                  ].map((item) => (
-                    <div
-                      key={item.name}
-                      className="flex items-center justify-between rounded-xl border border-slate-200/70 bg-white p-3.5 shadow-sm"
-                    >
-                      <div className="min-w-0 pr-3">
-                        <div className="font-bold text-xs text-[#263653] truncate">{item.name}</div>
-                        <div className="text-[11px] text-[#777777]">{item.sub}</div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="rounded-full bg-[#F5F2EA] px-2 py-0.5 text-[10px] font-bold text-[#263653]">
-                          {item.type}
-                        </span>
-                        <div className="text-[10px] text-[#777777] mt-1">{item.seats}</div>
-                      </div>
+              {/* Stats row */}
+              <div className="mt-14 grid grid-cols-3 gap-0 border-t border-[#2a2a2a] pt-8">
+                {[
+                  { value: "100%", label: "Live Occupancy" },
+                  { value: "4 Types", label: "Silent to Collaborative" },
+                  { value: "Zero", label: "Double-booking Conflicts" },
+                ].map((stat) => (
+                  <div key={stat.label} className="border-r border-[#2a2a2a] pr-6 last:border-0">
+                    <div className="text-xl font-black text-white">{stat.value}</div>
+                    <div className="mt-0.5 text-[10px] text-white/40 uppercase tracking-wider">
+                      {stat.label}
                     </div>
-                  ))}
-                </div>
-
-                <Link
-                  href="/spaces"
-                  className="mt-6 block rounded-xl bg-[#263653] py-2.5 text-center text-xs font-bold text-white transition hover:bg-[#E69A68]"
-                >
-                  Browse Full Campus Map
-                </Link>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            {/* Right — data panel */}
+            <div className="hidden lg:flex flex-col justify-center border-l border-[#2a2a2a] py-16 pl-12">
+              <div className="mb-6">
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#777777]">
+                  Live Campus Status
+                </span>
+                <h3 className="mt-1 text-sm font-bold text-white">Available Spaces Today</h3>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { name: "Central Library Silent Hall", sub: "Floor 2 · North Wing", seats: "32 Desks", type: "SILENT" },
+                  { name: "Innovation Hub Team Room", sub: "Ground Floor · Room G-04", seats: "8 Seats", type: "GROUP" },
+                  { name: "Learning Centre Lounge", sub: "Floor 1 · East Wing", seats: "24 Desks", type: "INDIVIDUAL" },
+                ].map((item) => (
+                  <div
+                    key={item.name}
+                    className="flex items-center justify-between border border-[#2a2a2a] bg-[#1e1e1e] p-4 hover:border-[#F15A24] transition"
+                  >
+                    <div className="min-w-0 pr-3">
+                      <div className="text-xs font-bold text-white truncate">{item.name}</div>
+                      <div className="text-[11px] text-[#777777]">{item.sub}</div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span className="border border-[#333] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#777777]">
+                        {item.type}
+                      </span>
+                      <div className="text-[10px] text-[#777777] mt-1">{item.seats}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/spaces"
+                className="mt-6 block border border-[#F15A24] bg-[#F15A24] py-3 text-center text-xs font-bold uppercase tracking-widest text-white transition hover:bg-transparent hover:text-[#F15A24]"
+              >
+                Browse All Campus Spaces
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Study Categories Section */}
-      <section className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="max-w-2xl">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#E69A68]">
-            Work the Way You Learn Best
-          </span>
-          <h2 className="mt-2 text-2xl font-extrabold text-[#263653] sm:text-3xl">
-            Diverse Study Environments for Every Session
-          </h2>
-          <p className="mt-2 text-xs text-[#777777] leading-relaxed">
-            Eliminating conflict between students who need pinpoint silence and those working on active group projects.
-          </p>
-        </div>
-
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {categories.map((cat) => (
-            <div
-              key={cat.title}
-              className="group flex flex-col justify-between rounded-2xl border border-[#263653]/10 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-[#E69A68]"
+      {/* ─── CATEGORIES ───────────────────────────────────────────────────── */}
+      <section className="border-b border-[#BDBDBD]">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+          <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+                Study Environment Types
+              </span>
+              <h2 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717]">
+                Every Learning Style,<br />Covered.
+              </h2>
+            </div>
+            <Link
+              href="/spaces"
+              className="border border-[#171717] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#171717] transition hover:bg-[#171717] hover:text-white w-fit"
             >
-              <div>
-                <div className={`grid h-12 w-12 place-items-center rounded-xl ${cat.color} text-2xl`}>
-                  {cat.icon}
-                </div>
-                <h3 className="mt-4 text-sm font-bold text-[#263653]">{cat.title}</h3>
-                <p className="mt-2 text-xs text-[#777777] leading-relaxed">{cat.desc}</p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-100">
-                <Link
-                  href={`/spaces?type=${encodeURIComponent(cat.type)}`}
-                  className="text-xs font-bold text-[#263653] group-hover:text-[#E69A68] transition flex items-center justify-between"
-                >
-                  <span>Filter by {cat.type}</span>
-                  <span>→</span>
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Featured Spaces from Database */}
-      <section className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#E69A68]">
-              Live Campus Availability
-            </span>
-            <h2 className="mt-1 text-2xl font-extrabold text-[#263653] sm:text-3xl">
-              Featured Study Spaces
-            </h2>
-            <p className="mt-1 text-xs text-[#777777]">
-              Real database records connected to actual desk and room allocations.
-            </p>
+              View All →
+            </Link>
           </div>
-          <Link
-            href="/spaces"
-            className="rounded-full border border-[#263653] px-4 py-2 text-xs font-bold text-[#263653] hover:bg-[#263653] hover:text-white transition"
-          >
-            View All Spaces →
-          </Link>
-        </div>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featuredSpaces.map((space) => (
-            <SpaceCard key={space.id} space={space} />
-          ))}
+          <div className="grid gap-px border border-[#BDBDBD] bg-[#BDBDBD] sm:grid-cols-2 lg:grid-cols-4">
+            {categories.map((cat, idx) => (
+              <Link
+                key={cat.title}
+                href={`/spaces?type=${encodeURIComponent(cat.type)}`}
+                className={`group flex flex-col justify-between p-7 transition hover:bg-[#171717] ${
+                  idx % 2 === 0 ? "bg-white" : "bg-[#F4F3ED]"
+                }`}
+              >
+                <div>
+                  <div className="text-3xl font-black text-[#BDBDBD] group-hover:text-[#F15A24] transition leading-none mb-5">
+                    {cat.code}
+                  </div>
+                  <h3 className="text-base font-black uppercase tracking-tight text-[#171717] group-hover:text-white transition">
+                    {cat.title}
+                  </h3>
+                  <p className="mt-2 text-xs text-[#777777] leading-relaxed group-hover:text-white/60 transition">
+                    {cat.desc}
+                  </p>
+                </div>
+                <div className="mt-6 text-xs font-bold uppercase tracking-wider text-[#BDBDBD] group-hover:text-[#F15A24] transition">
+                  Filter →
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* How it Works */}
-      <section id="how-it-works" className="border-y border-[#263653]/10 bg-[#FFFFFF] py-16">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#E69A68]">
+      {/* ─── FEATURED SPACES ──────────────────────────────────────────────── */}
+      <section className="border-b border-[#BDBDBD] bg-[#F4F3ED]">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+                Live Database Records
+              </span>
+              <h2 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717]">
+                Featured Study Spaces
+              </h2>
+            </div>
+            <Link
+              href="/spaces"
+              className="border border-[#171717] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#171717] transition hover:bg-[#171717] hover:text-white"
+            >
+              All Spaces →
+            </Link>
+          </div>
+
+          {featuredSpaces.length > 0 ? (
+            <div className="grid gap-px border border-[#BDBDBD] bg-[#BDBDBD] sm:grid-cols-2 lg:grid-cols-3">
+              {featuredSpaces.map((space) => (
+                <SpaceCard key={space.id} space={space} />
+              ))}
+            </div>
+          ) : (
+            <div className="border border-dashed border-[#BDBDBD] p-16 text-center">
+              <p className="text-xs uppercase tracking-widest text-[#777777]">
+                No spaces configured yet. Run the seed script to populate campus data.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ─── HOW IT WORKS ─────────────────────────────────────────────────── */}
+      <section id="how-it-works" className="border-b border-[#BDBDBD] bg-[#171717]">
+        <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+          <div className="mb-10">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
               Simple Three-Step Workflow
             </span>
-            <h2 className="mt-2 text-2xl font-extrabold text-[#263653] sm:text-3xl">
-              How StudySpace Keeps Campus Organized
+            <h2 className="mt-1 text-3xl font-black uppercase tracking-tight text-white">
+              How StudySpace Works
             </h2>
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="grid gap-px border border-[#2a2a2a] bg-[#2a2a2a] md:grid-cols-3">
             {[
               {
                 step: "01",
                 title: "Discover & Filter",
-                desc: "Search by building, floor, zone, capacity, and desired study style (silent study or collaborative room).",
+                desc: "Search by building, floor, zone, capacity, and study style. Silent study or collaborative room — your choice.",
               },
               {
                 step: "02",
@@ -292,18 +287,28 @@ export default async function HomePage() {
               {
                 step: "03",
                 title: "Check-in & Focus",
-                desc: "Present your digital pass at the campus reception, check into your space, and study with total peace of mind.",
+                desc: "Present your digital booking pass at campus reception, check into your space, and study undisturbed.",
               },
             ].map((st) => (
-              <div
-                key={st.step}
-                className="rounded-2xl border border-slate-100 bg-[#F5F2EA] p-6 shadow-sm"
-              >
-                <div className="text-2xl font-black text-[#E69A68]">{st.step}</div>
-                <h3 className="mt-3 text-base font-bold text-[#263653]">{st.title}</h3>
-                <p className="mt-2 text-xs text-[#777777] leading-relaxed">{st.desc}</p>
+              <div key={st.step} className="bg-[#1a1a1a] p-8 hover:bg-[#1e1e1e] transition">
+                <div className="text-5xl font-black text-[#F15A24]/30 leading-none mb-4">
+                  {st.step}
+                </div>
+                <h3 className="text-base font-black uppercase tracking-tight text-white">
+                  {st.title}
+                </h3>
+                <p className="mt-3 text-xs text-white/50 leading-relaxed">{st.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/register"
+              className="inline-block border border-[#F15A24] bg-[#F15A24] px-10 py-4 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-transparent hover:text-[#F15A24]"
+            >
+              Get Started — It's Free
+            </Link>
           </div>
         </div>
       </section>

@@ -23,7 +23,6 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
       if (res.ok) {
         const data = await res.json();
         setSeats(data.seats || []);
-        // Reset selected seat if no longer available in this slot
         const stillAvailable = data.seats.some(
           (s) => (s.id || s._id) === selectedSeatId && s.status === "Available"
         );
@@ -41,40 +40,53 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
   const percentAvailable =
     space.totalSeats > 0 ? Math.round((space.availableSeats / space.totalSeats) * 100) : 0;
 
+  // Facility icons mapping
+  const facilityIcons = {
+    "Wi-Fi": "📶",
+    "Power Socket": "⚡",
+    "Whiteboard": "📋",
+    "Monitor": "🖥",
+    "Air Conditioning": "❄️",
+    "Natural Light": "☀️",
+    "Quiet Zone": "🔇",
+    "Locker": "🔒",
+    "Printer": "🖨",
+    "Projector": "📽",
+  };
+
   return (
     <div className="space-y-8">
-      {/* Breadcrumb Navigation */}
+      {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-[#777777]">
-        <Link href="/" className="hover:text-[#263653] transition">
+        <Link href="/" className="hover:text-[#F15A24] transition uppercase tracking-wider font-semibold">
           Home
         </Link>
-        <span>/</span>
-        <Link href="/spaces" className="hover:text-[#263653] transition">
-          Explore Spaces
+        <span className="text-[#BDBDBD]">/</span>
+        <Link href="/spaces" className="hover:text-[#F15A24] transition uppercase tracking-wider font-semibold">
+          Explore
         </Link>
-        <span>/</span>
-        <span className="font-semibold text-[#263653] truncate">{space.name}</span>
+        <span className="text-[#BDBDBD]">/</span>
+        <span className="font-bold text-[#171717] uppercase tracking-wider truncate">{space.name}</span>
       </nav>
 
-      {/* Hero Overview Card */}
-      <section className="relative overflow-hidden rounded-3xl border border-[#263653]/10 bg-white p-6 sm:p-10 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-[#DCE5DC] px-3.5 py-1 text-xs font-bold text-[#263653]">
+      {/* Space Hero Header */}
+      <section className="border border-[#BDBDBD] bg-white p-6 sm:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
+          <div className="flex items-center gap-3">
+            <span className="border border-[#BDBDBD] px-3 py-1 text-[9px] font-black uppercase tracking-widest text-[#777777]">
               {space.studyType}
             </span>
             <StatusBadge status={space.availability} />
           </div>
-
           <Link
             href="/spaces"
-            className="text-xs font-bold text-[#263653] hover:text-[#E69A68] transition"
+            className="text-xs font-bold uppercase tracking-wider text-[#777777] hover:text-[#F15A24] transition"
           >
-            ← Back to all spaces
+            ← Back to Spaces
           </Link>
         </div>
 
-        <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-[#263653] sm:text-4xl">
+        <h1 className="text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl leading-none">
           {space.name}
         </h1>
 
@@ -82,62 +94,55 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
           {space.description}
         </p>
 
-        {/* Location & Details Badges */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl bg-[#F5F2EA] p-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#777777]">
-              Campus Building
-            </span>
-            <div className="mt-1 text-base font-bold text-[#263653]">
-              {space.buildingName || space.building}
+        {/* Location strip */}
+        <div className="mt-6 grid gap-0 border border-[#BDBDBD] sm:grid-cols-3">
+          {[
+            { label: "Campus Building", value: space.buildingName || space.building },
+            { label: "Floor / Room", value: space.floor },
+            { label: "Zone / Wing", value: space.zone || space.location },
+          ].map((item, idx) => (
+            <div
+              key={item.label}
+              className={`p-4 ${idx < 2 ? "border-b sm:border-b-0 sm:border-r border-[#BDBDBD]" : ""}`}
+            >
+              <span className="text-[9px] font-bold uppercase tracking-widest text-[#777777] block">
+                {item.label}
+              </span>
+              <div className="mt-1 text-sm font-black text-[#171717]">{item.value}</div>
             </div>
-          </div>
-
-          <div className="rounded-2xl bg-[#F5F2EA] p-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#777777]">
-              Floor / Room Number
-            </span>
-            <div className="mt-1 text-base font-bold text-[#263653]">{space.floor}</div>
-          </div>
-
-          <div className="rounded-2xl bg-[#F5F2EA] p-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#777777]">
-              Designated Zone / Wing
-            </span>
-            <div className="mt-1 text-base font-bold text-[#263653]">
-              {space.zone || space.location}
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Main Grid: Left Details & Right Reservation Form */}
-      <div className="grid gap-8 lg:grid-cols-12">
-        {/* Left column: Capacity, Visual Seats, Facilities, Rules */}
-        <div className="space-y-8 lg:col-span-7">
-          {/* Capacity Progress Card */}
-          <section className="rounded-2xl border border-[#263653]/10 bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-[#263653]">Desk Capacity & Current Load</h2>
-              <span className="text-xs font-bold text-[#263653]">
-                {space.availableSeats} of {space.totalSeats} seats open
+      {/* Main 2-column grid */}
+      <div className="grid gap-6 lg:grid-cols-12">
+        {/* Left: Details */}
+        <div className="space-y-6 lg:col-span-7">
+          {/* Capacity bar */}
+          <section className="border border-[#BDBDBD] bg-white p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-xs font-black uppercase tracking-widest text-[#171717]">
+                Seat Availability
+              </h2>
+              <span className="text-xs font-black text-[#171717]">
+                {space.availableSeats}
+                <span className="font-normal text-[#777777]"> / {space.totalSeats} seats open</span>
               </span>
             </div>
-
-            <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-slate-100">
+            <div className="h-2 w-full bg-[#F4F3ED] border border-[#BDBDBD]">
               <div
-                className={`h-full rounded-full transition-all duration-300 ${
-                  percentAvailable > 30 ? "bg-emerald-600" : "bg-amber-500"
+                className={`h-full transition-all duration-300 ${
+                  percentAvailable > 30 ? "bg-[#477A55]" : "bg-[#F15A24]"
                 }`}
                 style={{ width: `${percentAvailable}%` }}
               />
             </div>
-            <p className="mt-2 text-[11px] text-[#777777]">
-              Live calculation verified against valid active reservations and seat records.
+            <p className="mt-2 text-[10px] text-[#777777]">
+              Live calculation against active reservations and seat records.
             </p>
           </section>
 
-          {/* Visual Seat Arrangement */}
+          {/* Seat layout */}
           {!isRoomBooking ? (
             <section>
               <SeatGrid
@@ -148,19 +153,23 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
               />
             </section>
           ) : (
-            <section className="rounded-2xl border border-[#263653]/10 bg-white p-6 shadow-sm">
-              <h3 className="text-sm font-bold text-[#263653]">Collaborative Room Setup</h3>
-              <p className="mt-1 text-xs text-[#777777]">
+            <section className="border border-[#BDBDBD] bg-white p-6">
+              <h3 className="text-xs font-black uppercase tracking-widest text-[#171717] mb-3">
+                Collaborative Room Setup
+              </h3>
+              <p className="text-xs text-[#777777] leading-relaxed">
                 This room is booked as an entire unit. Capacity accommodates up to{" "}
-                <strong>{space.totalSeats} students</strong>. Individual seat selection is not
-                required.
+                <strong className="text-[#171717]">{space.totalSeats} students</strong>.
+                Individual seat selection is not required.
               </p>
-              <div className="mt-4 rounded-xl bg-[#F5F2EA] p-4 text-xs text-[#263238] flex items-center gap-3">
-                <span className="text-2xl">👥</span>
+              <div className="mt-4 border border-[#FFE1D5] bg-[#FFE1D5] p-4 flex items-start gap-3">
+                <div className="text-[#F15A24] font-black text-lg leading-none">≡</div>
                 <div>
-                  <span className="font-bold text-[#263653]">Full Room Reservation Mode</span>
-                  <p className="text-[#777777]">
-                    Only one group can reserve this room per time window to avoid cross-project noise.
+                  <span className="block text-xs font-black uppercase tracking-wider text-[#171717]">
+                    Full Room Reservation Mode
+                  </span>
+                  <p className="text-[10px] text-[#777777] mt-0.5">
+                    Only one group can reserve this room per time window.
                   </p>
                 </div>
               </div>
@@ -168,43 +177,49 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
           )}
 
           {/* Facilities */}
-          <section className="rounded-2xl border border-[#263653]/10 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-bold text-[#263653]">Included Facilities & Equipment</h2>
-            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {space.facilities &&
-                space.facilities.map((fac) => (
+          {space.facilities && space.facilities.length > 0 && (
+            <section className="border border-[#BDBDBD] bg-white p-5">
+              <h2 className="text-xs font-black uppercase tracking-widest text-[#171717] mb-4">
+                Included Facilities
+              </h2>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                {space.facilities.map((fac) => (
                   <div
                     key={fac}
-                    className="flex items-center gap-2 rounded-xl bg-[#F5F2EA] p-3 text-xs font-semibold text-[#263238]"
+                    className="flex items-center gap-2 border border-[#BDBDBD] bg-[#F4F3ED] p-3 text-xs font-semibold text-[#171717]"
                   >
-                    <span className="text-emerald-700">✓</span>
+                    <span className="text-[#477A55] font-black">✓</span>
                     <span>{fac}</span>
                   </div>
                 ))}
-            </div>
-          </section>
+              </div>
+            </section>
+          )}
 
           {/* Usage Rules */}
-          <section className="rounded-2xl border border-[#263653]/10 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-bold text-[#263653]">Facility Usage Rules</h2>
-            <div className="mt-4 space-y-2">
-              {space.usageRules &&
-                space.usageRules.map((rule, idx) => (
+          {space.usageRules && space.usageRules.length > 0 && (
+            <section className="border border-[#BDBDBD] bg-white p-5">
+              <h2 className="text-xs font-black uppercase tracking-widest text-[#171717] mb-4">
+                Usage Rules
+              </h2>
+              <div className="space-y-2">
+                {space.usageRules.map((rule, idx) => (
                   <div
                     key={rule}
-                    className="flex items-start gap-2.5 rounded-xl border border-slate-100 bg-white p-3 text-xs text-[#263238]"
+                    className="flex items-start gap-3 border border-[#BDBDBD] p-3 text-xs text-[#171717]"
                   >
-                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#DCE5DC] text-[10px] font-bold text-[#263653]">
+                    <span className="grid h-5 w-5 shrink-0 place-items-center border border-[#F15A24] text-[9px] font-black text-[#F15A24]">
                       {idx + 1}
                     </span>
                     <span className="leading-relaxed">{rule}</span>
                   </div>
                 ))}
-            </div>
-          </section>
+              </div>
+            </section>
+          )}
         </div>
 
-        {/* Right column: Interactive Booking Form */}
+        {/* Right: Booking Form */}
         <div className="lg:col-span-5">
           <div className="sticky top-20">
             <BookingForm

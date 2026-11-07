@@ -64,32 +64,34 @@ export default function AddSpacePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between border-b border-[#BDBDBD] pb-6">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E69A68]">
-            Space Administration
+          <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+            Facility Setup
           </span>
-          <h1 className="mt-1 text-2xl font-extrabold text-[#263653]">Add New Study Space</h1>
+          <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
+            Add Study Space
+          </h1>
         </div>
         <Link
           href="/admin/spaces"
-          className="text-xs font-bold text-[#263653] hover:text-[#E69A68] transition"
+          className="text-xs font-bold uppercase tracking-wider text-[#777777] hover:text-[#F15A24] transition"
         >
           ← Cancel & Back
         </Link>
       </div>
 
-      <div className="rounded-2xl border border-[#263653]/10 bg-white p-6 sm:p-8 shadow-sm">
+      <div className="border border-[#BDBDBD] bg-white p-6 sm:p-8">
         {error && (
-          <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700">
-            ⚠️ {error}
+          <div className="mb-6 border border-[#C43C32] bg-[#FAEAE9] p-3 text-xs text-[#C43C32]">
+            {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Space Name
               </label>
               <input
@@ -98,13 +100,13 @@ export default function AddSpacePage() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="e.g. Science Library – Mezzanine Zone"
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Building Name
               </label>
               <input
@@ -113,7 +115,7 @@ export default function AddSpacePage() {
                 value={formData.buildingName}
                 onChange={handleChange}
                 placeholder="Central Library, Innovation Hub..."
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
@@ -121,7 +123,7 @@ export default function AddSpacePage() {
 
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Floor
               </label>
               <input
@@ -130,13 +132,13 @@ export default function AddSpacePage() {
                 value={formData.floor}
                 onChange={handleChange}
                 placeholder="e.g. 2nd Floor"
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Zone / Wing
               </label>
               <input
@@ -145,20 +147,20 @@ export default function AddSpacePage() {
                 value={formData.zone}
                 onChange={handleChange}
                 placeholder="e.g. North Wing Room 204"
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+              <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
                 Study Type
               </label>
               <select
                 name="studyType"
                 value={formData.studyType}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs font-bold text-[#263653] outline-none focus:border-[#263653]"
+                className="w-full border border-[#BDBDBD] bg-white px-3.5 py-2.5 text-xs font-bold text-[#171717] outline-none focus:border-[#171717]"
               >
                 <option value="Silent Study">Silent Study</option>
                 <option value="Individual Study">Individual Study</option>
@@ -169,7 +171,7 @@ export default function AddSpacePage() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Total Seat Capacity
             </label>
             <input
@@ -179,16 +181,16 @@ export default function AddSpacePage() {
               max="100"
               value={formData.totalSeats}
               onChange={handleChange}
-              className="w-full sm:w-48 rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full sm:w-48 border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
               required
             />
-            <p className="mt-1 text-[11px] text-[#777777]">
-              Initial individual seat records will be auto-generated in MongoDB upon creation.
+            <p className="mt-1 text-[10px] text-[#777777]">
+              Individual seat records will be auto-generated in MongoDB upon creation.
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Description
             </label>
             <textarea
@@ -196,14 +198,14 @@ export default function AddSpacePage() {
               rows={3}
               value={formData.description}
               onChange={handleChange}
-              placeholder="Describe the atmosphere, equipment, and optimal use cases for students..."
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              placeholder="Describe atmosphere, equipment, and optimal use cases..."
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Facilities (comma separated)
             </label>
             <input
@@ -211,12 +213,12 @@ export default function AddSpacePage() {
               name="facilities"
               value={formData.facilities}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#777777] mb-1">
+            <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
               Usage Rules (comma separated)
             </label>
             <input
@@ -224,7 +226,7 @@ export default function AddSpacePage() {
               name="usageRules"
               value={formData.usageRules}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3.5 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+              className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717]"
             />
           </div>
 
@@ -235,24 +237,24 @@ export default function AddSpacePage() {
               name="isActive"
               checked={formData.isActive}
               onChange={handleChange}
-              className="h-4 w-4 rounded border-slate-300 text-[#263653]"
+              className="h-4 w-4 border-[#BDBDBD]"
             />
-            <label htmlFor="isActive" className="text-xs font-semibold text-[#263238]">
-              Active (Visible in student search & available for reservations)
+            <label htmlFor="isActive" className="text-xs font-bold uppercase tracking-wider text-[#171717]">
+              Active (Visible in student search & bookings)
             </label>
           </div>
 
           <div className="pt-4 flex justify-end gap-3">
             <Link
               href="/admin/spaces"
-              className="rounded-xl border border-slate-200 px-5 py-2.5 text-xs font-semibold text-[#263238]"
+              className="border border-[#BDBDBD] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[#171717]"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={loading}
-              className="rounded-xl bg-[#263653] px-6 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#E69A68] transition"
+              className="border border-[#F15A24] bg-[#F15A24] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#171717] hover:border-[#171717] transition"
             >
               {loading ? <LoadingSpinner size="sm" text="" /> : "Create Space & Generate Seats"}
             </button>

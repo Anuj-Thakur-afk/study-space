@@ -65,27 +65,32 @@ export default function BookingManagement({ initialBookings = [] }) {
   return (
     <div className="space-y-6">
       {/* Header and Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-[#263653]/10 bg-white p-5 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#BDBDBD] pb-6">
         <div>
-          <h2 className="text-lg font-bold text-[#263653]">Campus Bookings Management</h2>
-          <p className="text-xs text-[#777777]">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
+            Reservation Registry
+          </span>
+          <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
+            Manage Bookings
+          </h1>
+          <p className="mt-1 text-xs text-[#777777]">
             Monitor student reservations, search by attendee, and manage room allocations.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search student, email, space..."
-            className="w-full sm:w-60 rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs text-[#263238] outline-none focus:border-[#263653]"
+            className="w-full sm:w-60 border border-[#BDBDBD] bg-white px-3 py-2 text-xs text-[#171717] outline-none focus:border-[#171717]"
           />
 
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-xl border border-slate-200 bg-[#F5F2EA]/40 px-3 py-2 text-xs font-bold text-[#263653] outline-none focus:border-[#263653]"
+            className="border border-[#BDBDBD] bg-white px-3 py-2 text-xs font-bold text-[#171717] outline-none focus:border-[#171717]"
           >
             <option value="ALL">All Statuses</option>
             <option value="Confirmed">Confirmed</option>
@@ -97,10 +102,10 @@ export default function BookingManagement({ initialBookings = [] }) {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-2xl border border-[#263653]/10 bg-white shadow-sm">
+      <div className="border border-[#BDBDBD] bg-white">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="border-b border-slate-100 bg-[#F5F2EA] text-[#263653] font-bold uppercase tracking-wider">
+            <thead className="border-b border-[#BDBDBD] bg-[#F4F3ED] text-[#777777] font-bold uppercase tracking-wider text-[9px]">
               <tr>
                 <th className="px-5 py-3.5">Student</th>
                 <th className="px-4 py-3.5">Space & Seat</th>
@@ -110,25 +115,25 @@ export default function BookingManagement({ initialBookings = [] }) {
                 <th className="px-5 py-3.5 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-[#263238]">
+            <tbody className="divide-y divide-[#BDBDBD] text-[#171717]">
               {filtered.map((b) => (
-                <tr key={b.id || b._id} className="hover:bg-slate-50 transition">
+                <tr key={b.id || b._id} className="hover:bg-[#F4F3ED] transition">
                   <td className="px-5 py-4">
-                    <div className="font-bold text-[#263653]">{b.userId?.name || "Student"}</div>
-                    <div className="text-[11px] text-[#777777]">{b.userId?.email}</div>
+                    <div className="font-bold">{b.userId?.name || "Student"}</div>
+                    <div className="text-[10px] text-[#777777]">{b.userId?.email}</div>
                   </td>
                   <td className="px-4 py-4">
                     <div className="font-semibold">{b.studySpaceId?.name || "Study Space"}</div>
-                    <div className="text-[11px] text-[#777777]">
+                    <div className="text-[10px] text-[#777777]">
                       {b.seatId?.seatNumber ? `Seat: ${b.seatId.seatNumber}` : "Entire Room Reserved"}
                     </div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="font-bold text-[#263653]">{b.bookingDate}</div>
-                    <div className="text-[11px] text-[#777777]">{b.startTime} – {b.endTime}</div>
+                    <div className="font-bold">{b.bookingDate}</div>
+                    <div className="text-[10px] text-[#777777]">{b.startTime} – {b.endTime}</div>
                   </td>
                   <td className="px-4 py-4">
-                    <span className="font-medium text-[#263653]">{b.bookingType}</span>
+                    <span className="font-mono text-[10px] font-bold uppercase">{b.bookingType}</span>
                   </td>
                   <td className="px-4 py-4">
                     <StatusBadge status={b.status} size="sm" />
@@ -137,7 +142,7 @@ export default function BookingManagement({ initialBookings = [] }) {
                     {b.status !== "Cancelled" && b.status !== "Completed" && (
                       <button
                         onClick={() => setCancellingBooking(b)}
-                        className="rounded-lg px-2.5 py-1 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition"
+                        className="border border-[#C43C32] px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-[#C43C32] hover:bg-[#C43C32] hover:text-white transition"
                       >
                         Cancel
                       </button>
@@ -154,27 +159,27 @@ export default function BookingManagement({ initialBookings = [] }) {
       <Modal
         isOpen={!!cancellingBooking}
         onClose={() => setCancellingBooking(null)}
-        title="Admin Booking Cancellation"
+        title="Cancel Booking"
       >
         <div>
           <p className="text-xs text-[#777777] leading-relaxed">
-            Cancel reservation for student <strong className="text-[#263653]">{cancellingBooking?.userId?.name}</strong> at{" "}
-            <strong className="text-[#263653]">{cancellingBooking?.studySpaceId?.name}</strong>?
+            Cancel reservation for student <strong className="text-[#171717]">{cancellingBooking?.userId?.name}</strong> at{" "}
+            <strong className="text-[#171717]">{cancellingBooking?.studySpaceId?.name}</strong>?
           </p>
-          {actionError && <p className="mt-2 text-xs text-rose-700">{actionError}</p>}
+          {actionError && <p className="mt-2 text-xs text-[#C43C32] font-semibold">{actionError}</p>}
           <div className="mt-6 flex justify-end gap-2.5">
             <button
               onClick={() => setCancellingBooking(null)}
-              className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-[#263238]"
+              className="border border-[#BDBDBD] px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#171717]"
             >
               Keep
             </button>
             <button
               onClick={handleCancelConfirm}
               disabled={actionLoading}
-              className="rounded-xl bg-rose-600 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-rose-700"
+              className="border border-[#C43C32] bg-[#C43C32] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-black hover:border-black transition"
             >
-              {actionLoading ? <LoadingSpinner size="sm" text="" /> : "Confirm Admin Cancel"}
+              {actionLoading ? <LoadingSpinner size="sm" text="" /> : "Confirm Cancel"}
             </button>
           </div>
         </div>
