@@ -284,7 +284,7 @@ export default async function StudentDashboardPage() {
                   className={`block px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
                     action.primary
                       ? "border border-[#F15A24] bg-[#F15A24] text-white hover:bg-[#171717] hover:border-[#171717]"
-                      : "border border-[#BDBDBD] text-[#777777] hover:border-[#171717] hover:text-[#171717]"
+                      : "border border-[#BDBDBD] text-[#777777] hover:border-[#171717] hover:text-[#171717]" 
                   }`}
                 >
                   {action.primary ? "→ " : ""}{action.label}
