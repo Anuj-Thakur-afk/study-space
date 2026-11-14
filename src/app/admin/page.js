@@ -86,7 +86,7 @@ export default async function AdminDashboardPage() {
             href="/admin/occupancy"
             className="border border-[#171717] bg-[#171717] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#F15A24] hover:border-[#F15A24] transition"
           >
-            Verify Occupancy
+            Check Occupancy
           </Link>
         </div>
       </div>
@@ -96,13 +96,13 @@ export default async function AdminDashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
           <div>
             <span className="text-[9px] font-black uppercase tracking-widest text-[#777777]">
-              Campus Occupancy Load
+              Current Occupancy
             </span>
             <div className="text-2xl font-black text-[#171717]">{occupancyRate}% Occupied</div>
           </div>
           <div className="text-xs text-[#777777]">
             <span className="font-bold text-[#171717]">{stats.bookedSeats + stats.occupiedSeats}</span> of{" "}
-            <span className="font-bold text-[#171717]">{stats.totalSeats}</span> seats actively utilized
+            <span className="font-bold text-[#171717]">{stats.totalSeats}</span> seats in use
           </div>
         </div>
         <div className="h-2 w-full bg-[#F4F3ED] border border-[#BDBDBD]">
@@ -123,10 +123,10 @@ export default async function AdminDashboardPage() {
         <div className="flex items-center justify-between border-b border-[#BDBDBD] bg-[#F4F3ED] px-6 py-4">
           <div>
             <h3 className="text-xs font-black uppercase tracking-widest text-[#171717]">
-              Recent Booking Requests
+              Recent Bookings
             </h3>
             <p className="text-[10px] text-[#777777] uppercase tracking-wider mt-0.5">
-              Live reservations recorded in MongoDB
+              Latest bookings recorded across campus
             </p>
           </div>
           <Link

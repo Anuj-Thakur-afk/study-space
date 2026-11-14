@@ -31,7 +31,7 @@ export default function AdminStats({ stats }) {
       color: "text-[#C43C32]",
     },
     {
-      label: "Physically Occupied",
+      label: "Occupied Seats",
       value: stats.occupiedSeats || 0,
       subtext: "Verified on campus",
       code: "OC",

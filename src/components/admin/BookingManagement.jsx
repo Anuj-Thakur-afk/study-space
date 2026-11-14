@@ -68,13 +68,13 @@ export default function BookingManagement({ initialBookings = [] }) {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#BDBDBD] pb-6">
         <div>
           <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-            Reservation Registry
+            Bookings
           </span>
           <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
             Manage Bookings
           </h1>
           <p className="mt-1 text-xs text-[#777777]">
-            Monitor student reservations, search by attendee, and manage room allocations.
+            View and search all campus bookings, manage cancellations, and track attendance.
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export default function BookingManagement({ initialBookings = [] }) {
               <tr>
                 <th className="px-5 py-3.5">Student</th>
                 <th className="px-4 py-3.5">Space & Seat</th>
-                <th className="px-4 py-3.5">Date & Window</th>
+                <th className="px-4 py-3.5">Date & Time</th>
                 <th className="px-4 py-3.5">Type</th>
                 <th className="px-4 py-3.5">Status</th>
                 <th className="px-5 py-3.5 text-right">Action</th>

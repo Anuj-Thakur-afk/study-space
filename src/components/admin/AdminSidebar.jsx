@@ -3,13 +3,16 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-const NAV_ITEMS = [
+const DAILY_TASKS = [
   { href: "/admin", label: "Dashboard", code: "DB" },
-  { href: "/admin/spaces", label: "Manage Spaces", code: "SP" },
-  { href: "/admin/seats", label: "Manage Seats", code: "ST" },
   { href: "/admin/bookings", label: "Bookings", code: "BK" },
-  { href: "/admin/occupancy", label: "Occupancy", code: "OC" },
-  { href: "/admin/reports", label: "Reports", code: "RP" },
+  { href: "/admin/occupancy", label: "Live Occupancy", code: "OC" },
+];
+
+const MANAGEMENT_TASKS = [
+  { href: "/admin/spaces", label: "Spaces", code: "SP" },
+  { href: "/admin/seats", label: "Seats", code: "ST" },
+  { href: "/admin/reports", label: "Usage Reports", code: "RP" },
 ];
 
 export default function AdminSidebar() {
@@ -44,26 +47,60 @@ export default function AdminSidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="p-3 space-y-1">
-        {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
-                isActive
-                  ? "bg-[#F15A24] text-white"
-                  : "text-[#BDBDBD] hover:bg-[#222] hover:text-white"
-              }`}
-            >
-              <span className={`text-[9px] font-mono font-black ${isActive ? "text-white" : "text-[#777777]"}`}>
-                {item.code}
-              </span>
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
+      <nav className="p-3 space-y-4">
+        <div>
+          <span className="block px-3 pb-1 text-[9px] font-black uppercase tracking-widest text-[#777777]">
+            Daily Tasks
+          </span>
+          <div className="space-y-1">
+            {DAILY_TASKS.map((item) => {
+              const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+                    isActive
+                      ? "bg-[#F15A24] text-white"
+                      : "text-[#BDBDBD] hover:bg-[#222] hover:text-white"
+                  }`}
+                >
+                  <span className={`text-[9px] font-mono font-black ${isActive ? "text-white" : "text-[#777777]"}`}>
+                    {item.code}
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        <div>
+          <span className="block px-3 pb-1 text-[9px] font-black uppercase tracking-widest text-[#777777]">
+            Setup & Reports
+          </span>
+          <div className="space-y-1">
+            {MANAGEMENT_TASKS.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+                    isActive
+                      ? "bg-[#F15A24] text-white"
+                      : "text-[#BDBDBD] hover:bg-[#222] hover:text-white"
+                  }`}
+                >
+                  <span className={`text-[9px] font-mono font-black ${isActive ? "text-white" : "text-[#777777]"}`}>
+                    {item.code}
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </nav>
 
       {/* Logout button */}

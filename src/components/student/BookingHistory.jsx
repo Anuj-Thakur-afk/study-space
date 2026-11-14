@@ -78,7 +78,7 @@ export default function BookingHistory({ initialBookings = [] }) {
                 : "border border-[#BDBDBD] bg-[#F4F3ED] text-[#171717] hover:border-[#171717]"
             }`}
           >
-            Upcoming Reservations ({upcomingCount})
+            Upcoming Bookings ({upcomingCount})
           </button>
           <button
             onClick={() => setActiveTab("past")}
@@ -119,13 +119,13 @@ export default function BookingHistory({ initialBookings = [] }) {
           <div className="text-4xl font-black text-[#BDBDBD] mb-2">?</div>
           <h3 className="text-base font-black uppercase tracking-tight text-[#171717]">
             {activeTab === "upcoming"
-              ? "No upcoming reservations scheduled"
-              : "No past reservation records found"}
+              ? "No upcoming bookings"
+              : "No past bookings found"}
           </h3>
           <p className="mt-1 text-xs text-[#777777] max-w-sm mx-auto">
             {activeTab === "upcoming"
-              ? "Explore campus study spaces and reserve your seat or group room in advance."
-              : "Your completed and cancelled study reservations will appear here."}
+              ? "Find an open space and book your seat — it only takes a minute."
+              : "Your completed and cancelled bookings will appear here."}
           </p>
           {activeTab === "upcoming" && (
             <Link

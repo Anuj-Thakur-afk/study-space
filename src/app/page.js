@@ -11,7 +11,7 @@ async function getFeaturedSpaces() {
     await connectDB();
     const spaces = await StudySpace.find({ isActive: true })
       .sort({ createdAt: -1 })
-      .limit(3)
+      .limit(4)
       .lean();
 
     const enriched = await Promise.all(
@@ -35,7 +35,7 @@ async function getFeaturedSpaces() {
         };
       })
     );
-    return enriched;
+    return JSON.parse(JSON.stringify(enriched));
   } catch (err) {
     console.error("Home page space fetch error:", err);
     return [];
@@ -48,25 +48,25 @@ export default async function HomePage() {
   const categories = [
     {
       title: "Silent Study",
-      desc: "Zero-distraction acoustic spaces for deep reading and exam prep.",
+      desc: "Quiet areas for deep focus and exam prep.",
       type: "Silent Study",
       code: "SS",
     },
     {
       title: "Individual Desks",
-      desc: "Private carrels with power sockets and dedicated task lamps.",
+      desc: "Personal desks with power outlets and study lamps.",
       type: "Individual Study",
       code: "ID",
     },
     {
       title: "Group Rooms",
-      desc: "Enclosed rooms with 4K monitors and whiteboards.",
+      desc: "Enclosed rooms with screens and whiteboards for teamwork.",
       type: "Group Study",
       code: "GR",
     },
     {
       title: "Discussion Pods",
-      desc: "Roundtables for thesis discussions and peer tutoring.",
+      desc: "Open seating for study groups and peer discussions.",
       type: "Discussion Room",
       code: "DP",
     },
@@ -83,7 +83,7 @@ export default async function HomePage() {
               <div className="inline-flex items-center gap-2 border border-[#F15A24]/30 px-3 py-1.5 w-fit mb-8">
                 <span className="h-1.5 w-1.5 bg-[#F15A24] animate-pulse" />
                 <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-                  Live Campus Availability
+                  Available Spaces
                 </span>
               </div>
 
@@ -94,21 +94,40 @@ export default async function HomePage() {
               </h1>
 
               <p className="mt-8 max-w-md text-sm text-white/60 leading-relaxed">
-                During examination periods, students waste precious time searching for open desks.
-                StudySpace connects you with real-time room availability, visual seat layouts,
-                and instant reservations.
+                See which spaces are open right now, pick a seat, and book in seconds.
               </p>
 
-              <div className="mt-10 flex flex-wrap gap-3">
+              {/* Prominent Search Bar */}
+              <form action="/spaces" method="GET" className="mt-8 flex items-center border border-white/20 bg-[#1e1e1e] focus-within:border-[#F15A24] transition max-w-md">
+                <div className="pl-3.5 text-white/50">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  name="q"
+                  placeholder="Search space name, building, floor..."
+                  className="flex-1 bg-transparent py-3 px-3 text-xs text-white placeholder:text-white/40 outline-none"
+                />
+                <button
+                  type="submit"
+                  className="border-l border-white/20 bg-[#F15A24] px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-white hover:text-[#171717]"
+                >
+                  Search
+                </button>
+              </form>
+
+              <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/spaces"
-                  className="border border-[#F15A24] bg-[#F15A24] px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-transparent hover:text-[#F15A24]"
+                  className="border border-[#F15A24] bg-[#F15A24] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-transparent hover:text-[#F15A24]"
                 >
                   Explore All Spaces →
                 </Link>
                 <Link
                   href="/register"
-                  className="border border-white/20 px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-white/70 transition hover:border-white hover:text-white"
+                  className="border border-white/20 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white/70 transition hover:border-white hover:text-white"
                 >
                   Create Account
                 </Link>
@@ -117,9 +136,9 @@ export default async function HomePage() {
               {/* Stats row */}
               <div className="mt-14 grid grid-cols-3 gap-0 border-t border-[#2a2a2a] pt-8">
                 {[
-                  { value: "100%", label: "Live Occupancy" },
+                  { value: "Live", label: "Seat Availability" },
                   { value: "4 Types", label: "Silent to Collaborative" },
-                  { value: "Zero", label: "Double-booking Conflicts" },
+                  { value: "Zero", label: "Double-booking" },
                 ].map((stat) => (
                   <div key={stat.label} className="border-r border-[#2a2a2a] pr-6 last:border-0">
                     <div className="text-xl font-black text-white">{stat.value}</div>
@@ -181,7 +200,7 @@ export default async function HomePage() {
           <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-                Study Environment Types
+                Choose Your Study Space
               </span>
               <h2 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717]">
                 Every Learning Style,<br />Covered.
@@ -230,10 +249,10 @@ export default async function HomePage() {
           <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-                Live Database Records
+                Popular Spaces
               </span>
               <h2 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717]">
-                Featured Study Spaces
+                Popular Spaces
               </h2>
             </div>
             <Link
@@ -246,14 +265,14 @@ export default async function HomePage() {
 
           {featuredSpaces.length > 0 ? (
             <div className="grid gap-px border border-[#BDBDBD] bg-[#BDBDBD] sm:grid-cols-2 lg:grid-cols-3">
-              {featuredSpaces.map((space) => (
+              {featuredSpaces.slice(0, 4).map((space) => (
                 <SpaceCard key={space.id} space={space} />
               ))}
             </div>
           ) : (
             <div className="border border-dashed border-[#BDBDBD] p-16 text-center">
               <p className="text-xs uppercase tracking-widest text-[#777777]">
-                No spaces configured yet. Run the seed script to populate campus data.
+                No spaces available yet. Run the seed script to add campus spaces.
               </p>
             </div>
           )}
@@ -276,18 +295,18 @@ export default async function HomePage() {
             {[
               {
                 step: "01",
-                title: "Discover & Filter",
-                desc: "Search by building, floor, zone, capacity, and study style. Silent study or collaborative room — your choice.",
+                title: "Find a Space",
+                desc: "Search by building, floor, or type. Silent solo study or group room — filter and find in seconds.",
               },
               {
                 step: "02",
-                title: "Choose Seat & Window",
-                desc: "View the visual seat layout, pick an available desk or group room, and lock your reservation window.",
+                title: "Pick a Seat & Time",
+                desc: "View the seat layout, choose an open desk or room, and pick your two-hour slot.",
               },
               {
                 step: "03",
-                title: "Check-in & Focus",
-                desc: "Present your digital booking pass at campus reception, check into your space, and study undisturbed.",
+                title: "Show Up & Study",
+                desc: "Present your digital booking pass at reception, check in, and study without interruption.",
               },
             ].map((st) => (
               <div key={st.step} className="bg-[#1a1a1a] p-8 hover:bg-[#1e1e1e] transition">

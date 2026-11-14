@@ -71,11 +71,14 @@ export default async function SpaceDetailsPage({ params }) {
 
   const user = getSessionUser();
 
+  const plainSpace = JSON.parse(JSON.stringify(enrichedSpace));
+  const plainSeats = JSON.parse(JSON.stringify(formattedSeats));
+
   return (
     <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
       <SpaceDetailsClient
-        space={enrichedSpace}
-        initialSeats={formattedSeats}
+        space={plainSpace}
+        initialSeats={plainSeats}
         user={user}
       />
     </div>

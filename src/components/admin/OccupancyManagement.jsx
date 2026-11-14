@@ -82,13 +82,13 @@ export default function OccupancyManagement({ initialBookings = [] }) {
       {/* Verification Notice */}
       <div className="border border-[#BDBDBD] bg-white p-5">
         <span className="text-[9px] font-black uppercase tracking-widest text-[#F15A24]">
-          Physical Occupancy Verification
+          Live Check-in
         </span>
         <h2 className="mt-1 text-2xl font-black uppercase tracking-tight text-[#171717]">
-          Live Check-In Management
+          Student Check-in Management
         </h2>
         <p className="mt-2 text-xs text-[#777777] leading-relaxed">
-          Physical occupancy is controlled by campus administrators. When students physically arrive at a facility, mark them as <strong className="text-[#171717]">Occupied</strong>. When they leave, release the desk back into availability.
+          Manage student check-ins when students arrive on campus. Mark them as <strong className="text-[#171717]">Occupied</strong> to record attendance, or check them out when they finish.
         </p>
       </div>
 
@@ -116,7 +116,7 @@ export default function OccupancyManagement({ initialBookings = [] }) {
                 <th className="px-5 py-3">Student Name</th>
                 <th className="px-4 py-3">Space & Location</th>
                 <th className="px-4 py-3">Seat</th>
-                <th className="px-4 py-3">Slot</th>
+                <th className="px-4 py-3">Time</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-5 py-3 text-right">Physical Action</th>
               </tr>

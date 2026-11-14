@@ -49,7 +49,7 @@ export default function SpaceCard({ space }) {
         <div className="mt-4 border border-[#F4F3ED] bg-[#F4F3ED] p-3">
           <div className="flex items-center justify-between text-xs mb-2">
             <span className="text-[9px] uppercase tracking-widest text-[#777777]">
-              Availability
+              Available Seats
             </span>
             <span className="font-black text-[#171717] text-xs">
               {space.availableSeats}
@@ -97,7 +97,7 @@ export default function SpaceCard({ space }) {
             href={`/spaces/${space.id || space._id}`}
             className="flex w-full items-center justify-between border border-[#171717] bg-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#171717] transition group-hover:bg-[#171717] group-hover:text-white"
           >
-            <span>View & Reserve</span>
+            <span>Book Space</span>
             <span>→</span>
           </Link>
         </div>

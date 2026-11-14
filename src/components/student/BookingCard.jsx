@@ -13,7 +13,7 @@ export default function BookingCard({ booking, onCancel }) {
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#BDBDBD] pb-4">
         <div>
           <span className="text-[9px] font-black uppercase tracking-widest text-[#F15A24]">
-            {booking.bookingType === "ROOM" ? "Group Room Reservation" : "Individual Seat Booking"}
+            {booking.bookingType === "ROOM" ? "Group Room" : "Individual Seat"}
           </span>
           <h3 className="mt-1 text-base font-black tracking-tight text-[#171717]">{space.name || "Study Space"}</h3>
           <p className="mt-0.5 text-xs text-[#777777]">
@@ -29,13 +29,13 @@ export default function BookingCard({ booking, onCancel }) {
           <span className="font-bold text-[#171717]">{booking.bookingDate}</span>
         </div>
         <div>
-          <span className="block text-[9px] font-bold uppercase tracking-wider text-[#777777]">Time Window</span>
+          <span className="block text-[9px] font-bold uppercase tracking-wider text-[#777777]">Time</span>
           <span className="font-bold text-[#171717]">
             {booking.startTime} – {booking.endTime}
           </span>
         </div>
         <div>
-          <span className="block text-[9px] font-bold uppercase tracking-wider text-[#777777]">Seat / Unit</span>
+          <span className="block text-[9px] font-bold uppercase tracking-wider text-[#777777]">Seat</span>
           <span className="font-bold text-[#171717]">
             {booking.bookingType === "ROOM" ? "Entire Room" : seat?.seatNumber || "Assigned Seat"}
           </span>

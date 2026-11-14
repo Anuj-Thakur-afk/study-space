@@ -101,13 +101,13 @@ export default function SeatManagement({ spaces = [] }) {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#BDBDBD] pb-6">
         <div>
           <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-            Desk Inventory
+            Seats
           </span>
           <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
             Manage Seats
           </h1>
           <p className="mt-1 text-xs text-[#777777]">
-            Configure seat units, toggle availability, and assign desk numbers.
+            View seat layouts, update seat status, or add new desks.
           </p>
         </div>
 

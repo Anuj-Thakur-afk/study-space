@@ -114,8 +114,8 @@ async function getSpaces(searchParams) {
     })
   );
 
-  // Remove any null entries caused by availability filter.
-  return enriched.filter(Boolean);
+  // Remove any null entries caused by availability filter and ensure plain serializable objects
+  return JSON.parse(JSON.stringify(enriched.filter(Boolean)));
 }
 
 export default async function SpacesPage({ searchParams }) {

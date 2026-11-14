@@ -74,9 +74,9 @@ export default async function StudentDashboardPage() {
             Dashboard
           </h1>
           <p className="mt-2 text-sm text-[#777777]">
-            Welcome back,{" "}
+            Hey{" "}
             <span className="font-bold text-[#171717]">{session.name}</span> —
-            here's your study activity overview.
+            here's what's coming up.
           </p>
         </div>
         <div className="flex gap-2">
@@ -97,23 +97,23 @@ export default async function StudentDashboardPage() {
 
       {/* Stats grid — 4 cards */}
       <div className="grid gap-px border border-[#BDBDBD] bg-[#BDBDBD] grid-cols-2 lg:grid-cols-4 mb-8">
-        {[
+          {[
           {
-            label: "Active Reservations",
+            label: "Upcoming Bookings",
             value: activeBookings.length,
             sub: "Confirmed & ready",
             accent: false,
           },
           {
-            label: "Completed Sessions",
+            label: "Completed Bookings",
             value: completedCount,
-            sub: "Recorded attendance",
+            sub: "Sessions attended",
             accent: false,
           },
           {
-            label: "Focus Hours",
+            label: "Study Hours",
             value: `${totalHoursEstimated}h`,
-            sub: "Estimated study time",
+            sub: "Estimated total",
             accent: true,
           },
           {
@@ -148,7 +148,7 @@ export default async function StudentDashboardPage() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xs font-black uppercase tracking-widest text-[#171717]">
-                Next Upcoming Reservation
+                Next Upcoming Booking
               </h2>
               <Link
                 href="/bookings"
@@ -162,18 +162,18 @@ export default async function StudentDashboardPage() {
               <BookingCard booking={nextBooking} />
             ) : (
               <div className="border border-dashed border-[#BDBDBD] p-10 text-center bg-white">
-                <div className="text-5xl font-black text-[#BDBDBD] leading-none mb-3">?</div>
+                <div className="text-5xl font-black text-[#BDBDBD] leading-none mb-3">📅</div>
                 <h3 className="text-sm font-black uppercase tracking-tight text-[#171717]">
                   No Upcoming Bookings
                 </h3>
                 <p className="mt-2 text-xs text-[#777777] max-w-xs mx-auto">
-                  Reserve a seat in the Central Library or an Innovation Hub room before they fill up.
+                  Find an open space and book your seat before it fills up.
                 </p>
                 <Link
                   href="/spaces"
                   className="mt-5 inline-block border border-[#F15A24] bg-[#F15A24] px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white hover:bg-transparent hover:text-[#F15A24] transition"
                 >
-                  Discover Spaces
+                  Find a Space
                 </Link>
               </div>
             )}
@@ -184,7 +184,7 @@ export default async function StudentDashboardPage() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xs font-black uppercase tracking-widest text-[#171717]">
-                  Recent Booking Activity
+                  Recent Activity
                 </h2>
               </div>
               <div className="border border-[#BDBDBD] bg-white overflow-hidden">
@@ -273,8 +273,8 @@ export default async function StudentDashboardPage() {
             </h3>
             <div className="space-y-2">
               {[
-                { href: "/spaces", label: "Find a Study Space", primary: true },
-                { href: "/bookings", label: "View All My Bookings", primary: false },
+                { href: "/spaces", label: "Find a Space", primary: true },
+                { href: "/bookings", label: "My Bookings", primary: false },
                 { href: "/spaces?type=Silent+Study", label: "Silent Study Zones", primary: false },
                 { href: "/spaces?type=Group+Study", label: "Group Study Rooms", primary: false },
               ].map((action) => (

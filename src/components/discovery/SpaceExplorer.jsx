@@ -25,6 +25,7 @@ export default function SpaceExplorer({ initialSpaces = [] }) {
   const [building, setBuilding] = useState("All locations");
   const [floor, setFloor] = useState("All floors");
   const [capacity, setCapacity] = useState("");
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   // Derive unique buildings & floors from spaces data
   const buildings = useMemo(() => {
@@ -90,14 +91,13 @@ export default function SpaceExplorer({ initialSpaces = [] }) {
       {/* Page heading */}
       <div className="border-b border-[#BDBDBD] pb-8">
         <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-          Campus Space Discovery
+          Find a Space
         </span>
         <h1 className="mt-1 text-4xl font-black uppercase tracking-tight text-[#171717] sm:text-5xl">
           Explore Spaces
         </h1>
         <p className="mt-3 max-w-2xl text-sm text-[#777777] leading-relaxed">
-          Search silent libraries, individual reading desks, collaboration hubs,
-          and group discussion rooms across all campus buildings.
+          Search silent study rooms, individual desks, and group spaces across campus.
         </p>
 
         {/* Search bar */}
@@ -111,7 +111,7 @@ export default function SpaceExplorer({ initialSpaces = [] }) {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search space name, building, floor, zone, or facility..."
+            placeholder="Search by space name, building, floor, or facilities..."
             className="flex-1 bg-transparent py-3 px-3 text-sm text-[#171717] placeholder:text-[#BDBDBD] outline-none"
           />
           {search && (
@@ -144,7 +144,7 @@ export default function SpaceExplorer({ initialSpaces = [] }) {
             </div>
 
             <div className="divide-y divide-[#BDBDBD]">
-              {/* Study Type */}
+              {/* Study Type - Common filter */}
               <div className="p-4">
                 <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
                   Study Type
@@ -166,7 +166,7 @@ export default function SpaceExplorer({ initialSpaces = [] }) {
                 </div>
               </div>
 
-              {/* Availability */}
+              {/* Availability - Common filter */}
               <div className="p-4">
                 <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
                   Availability
@@ -188,56 +188,76 @@ export default function SpaceExplorer({ initialSpaces = [] }) {
                 </div>
               </div>
 
-              {/* Building */}
-              <div className="p-4">
-                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
-                  Building
-                </label>
-                <div className="relative">
-                  <select
-                    value={building}
-                    onChange={(e) => setBuilding(e.target.value)}
-                    className={selectClass}
-                  >
-                    {buildings.map((b) => (
-                      <option key={b} value={b}>{b}</option>
-                    ))}
-                  </select>
-                </div>
+              {/* Advanced Filters Collapsible Section */}
+              <div className="p-4 bg-[#F4F3ED]/50">
+                <button
+                  type="button"
+                  onClick={() => setShowAdvanced(!showAdvanced)}
+                  className="flex w-full items-center justify-between text-left"
+                >
+                  <span className="text-[9px] font-black uppercase tracking-widest text-[#171717]">
+                    More Filters {building !== "All locations" || floor !== "All floors" || capacity ? "•" : ""}
+                  </span>
+                  <span className="text-xs font-bold text-[#777777]">
+                    {showAdvanced ? "▲" : "▼"}
+                  </span>
+                </button>
               </div>
 
-              {/* Floor */}
-              <div className="p-4">
-                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
-                  Floor Level
-                </label>
-                <div className="relative">
-                  <select
-                    value={floor}
-                    onChange={(e) => setFloor(e.target.value)}
-                    className={selectClass}
-                  >
-                    {floors.map((fl) => (
-                      <option key={fl} value={fl}>{fl}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+              {showAdvanced && (
+                <>
+                  {/* Building */}
+                  <div className="p-4 bg-white">
+                    <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                      Building
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={building}
+                        onChange={(e) => setBuilding(e.target.value)}
+                        className={selectClass}
+                      >
+                        {buildings.map((b) => (
+                          <option key={b} value={b}>{b}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
 
-              {/* Min Capacity */}
-              <div className="p-4">
-                <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
-                  Min. Capacity
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  value={capacity}
-                  onChange={(e) => setCapacity(e.target.value)}
-                  placeholder="e.g. 10"
-                  className="w-full border border-[#BDBDBD] bg-white px-3 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717] transition"
-                />
-              </div>
+                  {/* Floor */}
+                  <div className="p-4 bg-white">
+                    <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                      Floor Level
+                    </label>
+                    <div className="relative">
+                      <select
+                        value={floor}
+                        onChange={(e) => setFloor(e.target.value)}
+                        className={selectClass}
+                      >
+                        {floors.map((fl) => (
+                          <option key={fl} value={fl}>{fl}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Min Capacity */}
+                  <div className="p-4 bg-white">
+                    <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+                      Min. Seats
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={capacity}
+                      onChange={(e) => setCapacity(e.target.value)}
+                      placeholder="e.g. 5"
+                      className="w-full border border-[#BDBDBD] bg-white px-3 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717] transition"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </aside>

@@ -15,13 +15,13 @@ export default function UtilizationReport({ reportData }) {
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#BDBDBD] pb-4">
           <div>
             <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-              Campus Space Intelligence
+              Usage Reports
             </span>
             <h2 className="mt-1 text-2xl font-black uppercase tracking-tight text-[#171717]">
-              Occupancy & Utilisation
+              Space Usage & Occupancy
             </h2>
             <p className="text-xs text-[#777777] mt-0.5">
-              Real-time ratio of seats currently free, reserved, occupied, or under maintenance.
+              Live breakdown of seats currently available, booked, occupied, or unavailable.
             </p>
           </div>
           <div className="flex items-center gap-2">

@@ -64,13 +64,13 @@ export default function SpaceManagement({ initialSpaces = [] }) {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#BDBDBD] pb-6">
         <div>
           <span className="text-[9px] font-bold uppercase tracking-widest text-[#F15A24]">
-            Facility Inventory
+            Spaces
           </span>
           <h1 className="mt-1 text-3xl font-black uppercase tracking-tight text-[#171717] sm:text-4xl">
             Manage Spaces
           </h1>
           <p className="mt-1 text-xs text-[#777777]">
-            Configure and maintain study facilities across all campus zones.
+            Add, edit, or deactivate study spaces across campus.
           </p>
         </div>
         <Link

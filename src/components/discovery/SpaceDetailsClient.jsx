@@ -97,9 +97,9 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
         {/* Location strip */}
         <div className="mt-6 grid gap-0 border border-[#BDBDBD] sm:grid-cols-3">
           {[
-            { label: "Campus Building", value: space.buildingName || space.building },
-            { label: "Floor / Room", value: space.floor },
-            { label: "Zone / Wing", value: space.zone || space.location },
+            { label: "Building", value: space.buildingName || space.building },
+            { label: "Floor", value: space.floor },
+            { label: "Zone", value: space.zone || space.location },
           ].map((item, idx) => (
             <div
               key={item.label}
@@ -122,11 +122,11 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
           <section className="border border-[#BDBDBD] bg-white p-5">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xs font-black uppercase tracking-widest text-[#171717]">
-                Seat Availability
+                Available Seats
               </h2>
               <span className="text-xs font-black text-[#171717]">
                 {space.availableSeats}
-                <span className="font-normal text-[#777777]"> / {space.totalSeats} seats open</span>
+                <span className="font-normal text-[#777777]"> / {space.totalSeats} open</span>
               </span>
             </div>
             <div className="h-2 w-full bg-[#F4F3ED] border border-[#BDBDBD]">
@@ -138,7 +138,7 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
               />
             </div>
             <p className="mt-2 text-[10px] text-[#777777]">
-              Live calculation against active reservations and seat records.
+              Updates when you change the date or time slot above.
             </p>
           </section>
 
@@ -196,13 +196,18 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
             </section>
           )}
 
-          {/* Usage Rules */}
+          {/* Usage Rules - Collapsible */}
           {space.usageRules && space.usageRules.length > 0 && (
-            <section className="border border-[#BDBDBD] bg-white p-5">
-              <h2 className="text-xs font-black uppercase tracking-widest text-[#171717] mb-4">
-                Usage Rules
-              </h2>
-              <div className="space-y-2">
+            <details className="border border-[#BDBDBD] bg-white group p-5">
+              <summary className="flex items-center justify-between cursor-pointer list-none">
+                <h2 className="text-xs font-black uppercase tracking-widest text-[#171717]">
+                  Space Guidelines ({space.usageRules.length})
+                </h2>
+                <span className="text-xs font-bold text-[#777777] group-open:rotate-180 transition-transform">
+                  ▼
+                </span>
+              </summary>
+              <div className="mt-4 space-y-2 border-t border-[#BDBDBD] pt-4">
                 {space.usageRules.map((rule, idx) => (
                   <div
                     key={rule}
@@ -215,7 +220,7 @@ export default function SpaceDetailsClient({ space, initialSeats = [], user }) {
                   </div>
                 ))}
               </div>
-            </section>
+            </details>
           )}
         </div>
 

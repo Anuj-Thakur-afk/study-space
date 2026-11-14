@@ -104,10 +104,10 @@ export default function BookingForm({
           ✓
         </div>
         <h3 className="text-base font-black uppercase tracking-tight text-[#171717]">
-          Reservation Confirmed
+          Booking Confirmed
         </h3>
         <p className="mt-1 text-xs text-[#777777]">
-          Your study space has been reserved in the campus database.
+          Your space has been booked. Show your digital pass on arrival.
         </p>
 
         <div className="mt-5 border border-[#BDBDBD] bg-white p-4 text-left text-xs space-y-2">
@@ -170,10 +170,10 @@ export default function BookingForm({
           </div>
         )}
 
-        {/* Date */}
+        {/* Stage 1: Date */}
         <div>
           <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
-            1 — Reservation Date
+            1 — Select Date
           </label>
           <input
             type="date"
@@ -185,10 +185,10 @@ export default function BookingForm({
           />
         </div>
 
-        {/* Time slots */}
+        {/* Stage 2: Time slots */}
         <div>
           <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
-            2 — Time Slot
+            2 — Choose Time
           </label>
           <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
             {TIME_SLOTS.map((slot, idx) => (
@@ -211,41 +211,49 @@ export default function BookingForm({
           </div>
         </div>
 
-        {/* Purpose */}
+        {/* Stage 3: Review and Confirm */}
         <div>
-          <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-1.5">
-            3 — Study Objective
+          <label className="block text-[9px] font-black uppercase tracking-widest text-[#777777] mb-2">
+            3 — Review & Confirm
           </label>
-          <input
-            type="text"
-            value={purpose}
-            onChange={(e) => setPurpose(e.target.value)}
-            placeholder="e.g. Operating Systems final revision..."
-            className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2.5 text-xs text-[#171717] outline-none focus:border-[#171717] transition placeholder:text-[#BDBDBD]"
-          />
-        </div>
 
-        {/* Summary */}
-        <div className="border border-[#BDBDBD] bg-[#F4F3ED] p-4 text-xs space-y-1.5">
-          {[
-            { label: "Facility", value: space.name },
-            {
-              label: "Allocation",
-              value: isRoomBooking
-                ? "Full Collaborative Room"
-                : selectedSeatId
-                ? "Seat Selected"
-                : "⚠ No seat selected",
-            },
-            { label: "Window", value: `${date} · ${startTime} – ${endTime}` },
-          ].map((row) => (
-            <div key={row.label} className="flex justify-between gap-2">
-              <span className="text-[#777777] uppercase tracking-wider text-[9px] font-bold">
-                {row.label}
+          <div className="space-y-3">
+            <div>
+              <span className="block text-[9px] font-bold uppercase tracking-wider text-[#777777] mb-1">
+                Purpose of Visit
               </span>
-              <span className="font-bold text-[#171717] text-right">{row.value}</span>
+              <input
+                type="text"
+                value={purpose}
+                onChange={(e) => setPurpose(e.target.value)}
+                placeholder="e.g. Course revision, exam prep, project work..."
+                className="w-full border border-[#BDBDBD] bg-[#F4F3ED] px-3.5 py-2 text-xs text-[#171717] outline-none focus:border-[#171717] transition placeholder:text-[#BDBDBD]"
+              />
             </div>
-          ))}
+
+            {/* Summary */}
+            <div className="border border-[#BDBDBD] bg-[#F4F3ED] p-4 text-xs space-y-1.5">
+              {[
+                { label: "Space", value: space.name },
+                {
+                  label: "Booked Space",
+                  value: isRoomBooking
+                    ? "Full Room"
+                    : selectedSeatId
+                    ? "Seat Selected"
+                    : "⚠ No seat selected",
+                },
+                { label: "Date & Time", value: `${date} · ${startTime} – ${endTime}` },
+              ].map((row) => (
+                <div key={row.label} className="flex justify-between gap-2">
+                  <span className="text-[#777777] uppercase tracking-wider text-[9px] font-bold">
+                    {row.label}
+                  </span>
+                  <span className="font-bold text-[#171717] text-right">{row.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Submit */}
