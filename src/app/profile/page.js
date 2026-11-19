@@ -5,7 +5,8 @@ import User from "@/models/User";
 import Booking from "@/models/Booking";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"; 
+
 
 export const metadata = {
   title: "Profile | StudySpace",
